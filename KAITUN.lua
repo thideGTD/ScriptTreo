@@ -285,6 +285,58 @@ local function PlayWin()
 end
 
 
+local function PlayMap(map)
+    if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.DifficultyVote.Visible then
+        local args = {
+            "dif_insane"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceDifficultyVote"):InvokeServer(unpack(args))
+    end
+    if game:GetService("Players").LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["2"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
+        local args = {
+            2
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
+    end
+    if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.GameEnd.Visible then
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("RestartGame"):InvokeServer()
+    end
+    local radishCount = 0
+    for _, child in ipairs(workspace.Map.Entities:GetChildren()) do
+        if child.Name == "unit_tomato_plant" then
+            radishCount = radishCount + 1
+        end
+    end
+    -- game.Players.LocalPlayer.Character.Humanoid:MoveTo(Vector3.new(-331.64239501953125 + math.random(-10, 10), 62.522750854492188, -133.88951110839844 + math.random(-10, 10)))
+    if radishCount < 20 then
+        game.Players.LocalPlayer.Character.Humanoid:MoveTo(Vector3.new(-331.64239501953125 + math.random(-10, 10), 62.703956604003906, -133.88951110839844 + math.random(-10, 10)))
+        local PosMap = {
+            map_farm = Vector3.new(-308.6241760253906, 61.68030548095703, -140.83070373535156),
+            map_jungle = Vector3.new(-338.59210205078125, 61.68030548095703, -114.04462432861328),
+            map_island = Vector3.new(-73.45323181152344, -30.6875, 132.98800659179688),
+            map_toxic = Vector3.new(-3.2117342948913574, 1.9999998807907104, 322.42962646484375)
+        }
+        print('LAY')
+        if game:GetService("Players").LocalPlayer:GetAttribute("Cash") > 100 then
+            local args = {
+                "unit_tomato_plant",
+                {
+                    Valid = true,
+                    Rotation = 180,
+                    CF = CFrame.new(PosMap[map]),
+                    Position = PosMap[map]
+                }
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceUnit"):InvokeServer(unpack(args))
+        end
+    end
+    if game:GetService("Players").LocalPlayer:GetAttribute("Cash") > 135 then
+        UpgradeU()
+    end
+end
+
+
+
 local function AntiLag()
     local Terrain = workspace:FindFirstChildOfClass("Terrain")
     local Lighting = game:GetService("Lighting")
@@ -579,7 +631,57 @@ local function ClearUnity()
         end
     )
 end
+
+local function JoinMap(maps)
+    local parttouch = workspace.Map.LobbiesFarm
+    for map, world in pairs(parttouch:GetChildren()) do
+        local maxDistance = 7 -- Khoảng cách tối đa (studs)
+        if world:GetAttribute("MaxPlayers") == 1 then
+            if isAnyPlayerNearby(maxDistance, world.Cage.Part.CFrame) then
+                -- game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("StartLobby_1"):InvokeServer()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = world.Cage.Part.CFrame
+                local args = {
+                    tostring(maps)
+                }
+                for i = 6, 9 do
+                    print(tostring(maps))
+                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild(
+                        "LobbySetMap_" .. i
+                    ):InvokeServer(unpack(args))
+                    local args2 = {
+                        1
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild(
+                        "LobbySetMaxPlayers_" .. i
+                    ):InvokeServer(unpack(args2))
+
+                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild(
+                        "StartLobby_" .. i
+                    ):InvokeServer()
+                    task.wait()
+                end
+            else
+                hopServer()
+            end
+        end
+    end
+end
+
 task.spawn(ClearUnity)
+local map = {
+    map_farm = 0,
+    map_jungle = 0,
+    map_island = 0,
+    map_toxic = 0
+}
+local MapWin = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+local function UpdateMapWin()
+    for i,v in pairs(MapWin.GetData().MapProgress) do
+        for a,b in pairs(v) do
+            map[i] = b
+        end
+    end
+end
 local Wins = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.Stats.Items.Frame.ScrollingFrame.GamesWon.Items.Items.Val
 local function main()
     if game.PlaceId == 108533757090220 then
@@ -595,6 +697,7 @@ local function main()
             local Seeds = tostring(game:GetService("Players").LocalPlayer.leaderstats.Seeds.Value)
             local SeedHave = Seeds:find("[Kk]") and Seeds:gsub("[Kk]", "") * 1000 or Seeds:gsub(",", "")
             local maxDistance = 7 -- Khoảng cách tối đa (studs)
+            UpdateMapWin()
             if (not Have and tonumber(SeedHave) > 400) then
                 StartRolls = true
                 Roll()
@@ -606,7 +709,15 @@ local function main()
                     true
                 }
                 game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SetUnitEquipped"):InvokeServer(unpack(args))
-                if tonumber(Wins.Text) < 25 then
+                if map["map_farm"] < 5 then
+                    JoinMap("map_farm")
+                elseif map["map_farm"] > 5 and map["map_jungle"] < 5 then
+                    JoinMap("map_jungle")
+                elseif map["map_jungle"] > 5 and map["map_island"] < 5 then
+                    JoinMap("map_island")
+                elseif map["map_jungle"] > 5 and map["map_toxic"] < 5 then
+                    JoinMap("map_toxic")
+                elseif tonumber(Wins.Text) < 25 then
                     local parttouch = workspace.Map.LobbiesFarm
                     for map,world in pairs(parttouch:GetChildren()) do
                         if world:GetAttribute("MaxPlayers") == 1 then
@@ -667,10 +778,16 @@ local function main()
                 print('Have another player')
                 game:shutdown()
             end
+            UpdateMapWin()
             Wins = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.Stats.Items.Frame.ScrollingFrame.GamesWon.Items.Items.Val
             local SeedValue = game:GetService("Players").LocalPlayer.leaderstats.Seeds.Value
             local Seed = SeedValue:find("[Kk]") and SeedValue:gsub("[Kk]", "") * 1000 or SeedValue:gsub(",", "")
-            if tonumber(Wins.Text) >= 25 then
+            if map[workspace:GetAttribute("MapId")] < 5 then
+                PlayMap(workspace:GetAttribute("MapId"))
+                if map[workspace:GetAttribute("MapId")] > 5 then
+                    game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
+                end
+            elseif tonumber(Wins.Text) >= 25 then
                 if workspace:GetAttribute("MapId") == "map_farm" then
                     game:shutdown()
                 elseif workspace:GetAttribute("MapId") == "map_back_garden" and CheckBackPack() then
