@@ -284,8 +284,21 @@ local function PlayWin()
     end
 end
 
+local function CheckOut()
+    task.spawn(function()
+        while true do
+            task.wait(300)
+            if game:GetService("ReplicatedStorage"):FindFirstChild("RemoteFunctions") then
+                game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
+            else
+                game:shutdown()
+            end
+        end
+    end)
+end
 
 local function PlayMap(map)
+    CheckOut()
     if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.DifficultyVote.Visible then
         local args = {
             "dif_insane"
