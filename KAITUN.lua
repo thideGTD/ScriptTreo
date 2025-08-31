@@ -308,8 +308,8 @@ local function PlayMap(map)
         end
     end
     -- game.Players.LocalPlayer.Character.Humanoid:MoveTo(Vector3.new(-331.64239501953125 + math.random(-10, 10), 62.522750854492188, -133.88951110839844 + math.random(-10, 10)))
-    if radishCount < 20 then
-        game.Players.LocalPlayer.Character.Humanoid:MoveTo(Vector3.new(-331.64239501953125 + math.random(-10, 10), 62.703956604003906, -133.88951110839844 + math.random(-10, 10)))
+    if radishCount < 1 then
+        -- game.Players.LocalPlayer.Character.Humanoid:MoveTo(Vector3.new(-331.64239501953125 + math.random(-10, 10), 62.703956604003906, -133.88951110839844 + math.random(-10, 10)))
         local PosMap = {
             map_farm = Vector3.new(-308.6241760253906, 61.68030548095703, -140.83070373535156),
             map_jungle = Vector3.new(-338.59210205078125, 61.68030548095703, -114.04462432861328),
@@ -330,9 +330,9 @@ local function PlayMap(map)
             game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceUnit"):InvokeServer(unpack(args))
         end
     end
-    if game:GetService("Players").LocalPlayer:GetAttribute("Cash") > 135 then
-        UpgradeU()
-    end
+    -- if game:GetService("Players").LocalPlayer:GetAttribute("Cash") > 135 then
+    --     UpgradeU()
+    -- end
 end
 
 
