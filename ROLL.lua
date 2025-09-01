@@ -12,23 +12,23 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local StartRolls = false
 
 local function Roll()
-    local args = {
-	    "ub_sun",
-	    10
-    }
-    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	task.wait(0.5)
-	 local args = {
-	    "ub_sun",
-	    10
-    }
-    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	-- task.wait(0.5)
  --    local args = {
-	--     "ub_bee",
+	--     "ub_sun",
 	--     10
  --    }
  --    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+	-- task.wait(0.5)
+	--  local args = {
+	--     "ub_sun",
+	--     10
+ --    }
+ --    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+	task.wait(0.5)
+    local args = {
+	    "ub_bee",
+	    10
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
 
 end
 
@@ -85,6 +85,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
