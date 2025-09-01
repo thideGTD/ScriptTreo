@@ -724,11 +724,11 @@ local function main()
                 game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SetUnitEquipped"):InvokeServer(unpack(args))
                 if map["map_farm"] < 5 then
                     JoinMap("map_farm")
-                elseif map["map_farm"] > 5 and map["map_jungle"] < 5 then
+                elseif map["map_farm"] >= 5 and map["map_jungle"] < 5 then
                     JoinMap("map_jungle")
-                elseif map["map_jungle"] > 5 and map["map_island"] < 5 then
+                elseif map["map_jungle"] >= 5 and map["map_island"] < 5 then
                     JoinMap("map_island")
-                elseif map["map_jungle"] > 5 and map["map_toxic"] < 5 then
+                elseif map["map_jungle"] >= 5 and map["map_toxic"] < 5 then
                     JoinMap("map_toxic")
                 elseif tonumber(Wins.Text) < 25 then
                     local parttouch = workspace.Map.LobbiesFarm
