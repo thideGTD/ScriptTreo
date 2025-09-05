@@ -79,12 +79,13 @@ end
 while true do
 	local Seeds = tostring(player.leaderstats.Seeds.Value)
 	local SeedHave = tonumber(Seeds:match("[kK]") and Seeds:gsub("[kK]", "") * 1000 or Seeds:gsub(",", ""))
-	if SeedHave >= SeedWaitRoll and game.Players.LocalPlayer.AccountAge > 14 then
+	if SeedHave >= SeedWaitRoll and game.Players.LocalPlayer.AccountAge > 16 then
 		StartRolls = true
 		StartRoll()
 	end
 	_wait(5)
 end
+
 
 
 
