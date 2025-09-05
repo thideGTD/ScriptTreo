@@ -795,7 +795,7 @@ local function main()
             Wins = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.Stats.Items.Frame.ScrollingFrame.GamesWon.Items.Items.Val
             local SeedValue = game:GetService("Players").LocalPlayer.leaderstats.Seeds.Value
             local Seed = SeedValue:find("[Kk]") and SeedValue:gsub("[Kk]", "") * 1000 or SeedValue:gsub(",", "")
-            if map[workspace:GetAttribute("MapId")] < 5 then
+            if workspace:GetAttribute("MapId") ~= "map_back_garden" and map[workspace:GetAttribute("MapId")] < 5 then
                 PlayMap(workspace:GetAttribute("MapId"))
                 if map[workspace:GetAttribute("MapId")] > 5 then
                     game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
