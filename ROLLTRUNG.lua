@@ -17,7 +17,12 @@ local function Roll()
 	    10
     }
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	  task.wait(0.5)
+	task.wait(0.5)
+	local args = {
+	    "ub_tropical", -- Confusion: ub_tropical, Beehive: ub_bee, Lucky Clover : ub_sun
+	    10
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
 end
 
 local function RemoveUnit()
