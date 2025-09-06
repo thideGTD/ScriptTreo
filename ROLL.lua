@@ -1,4 +1,4 @@
-local SeedWaitRoll = 9900000
+local SeedWaitRoll = 3600
 local SeedStopRoll = 2700
 local _wait = task.wait
 
@@ -85,6 +85,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
