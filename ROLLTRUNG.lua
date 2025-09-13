@@ -1,5 +1,5 @@
-local SeedWaitRoll = 1000000000 -- Chỉnh Số Tiền Đủ Sẽ Roll
-local SeedStopRoll = 1000000000 -- Chỉnh Số Tiền Giữ Lại
+local SeedWaitRoll = 6000 -- Chỉnh Số Tiền Đủ Sẽ Roll
+local SeedStopRoll = 3600 -- Chỉnh Số Tiền Giữ Lại
 local _wait = task.wait
 
 repeat _wait() until game:IsLoaded()
@@ -13,7 +13,7 @@ local StartRolls = false
 
 local function Roll()
     local args = {
-	    "ub_sun", -- Confusion: ub_tropical, Beehive: ub_bee, Lucky Clover : ub_sun
+	    "ub_bee", -- Confusion: ub_tropical, Beehive: ub_bee, Lucky Clover : ub_sun
 	    10
     }
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
