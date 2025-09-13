@@ -1,4 +1,4 @@
-local SeedWaitRoll = 1000000000000
+local SeedWaitRoll = 150000
 local SeedStopRoll = 3600
 local _wait = task.wait
 
@@ -12,11 +12,16 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local StartRolls = false
 
 local function Roll()
-    local args = {
-	    "ub_tropical",
-	    10
+    -- local args = {
+	   --  "ub_tropical",
+	   --  10
+    -- }
+    -- game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+	local args = {
+	      "unit_black_clover"
     }
-    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitWithSeeds"):InvokeServer(unpack(args))
+
 	-- task.wait(0.5)
 	--  local args = {
 	--     "ub_sun",
@@ -85,6 +90,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
