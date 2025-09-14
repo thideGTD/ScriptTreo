@@ -10,7 +10,7 @@ repeat _wait() until game:GetService("Players").LocalPlayer.PlayerGui.LogicHolde
 local GuiService = game:GetService("GuiService")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 GuiService.AutoSelectGuiEnabled = true
-task.wait(5)
+-- task.wait(5)
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
 local function AutoSkip()
@@ -756,12 +756,16 @@ local function main()
                         end
                     end
                 else
-                    local parttouch = workspace.Map.BackGarden
+                    local parttouch = workspace.Map.LobbiesFarm
                     for map,world in pairs(parttouch:GetChildren()) do
                         if world:GetAttribute("MaxPlayers") == 1 then
                             if isAnyPlayerNearby(maxDistance, world.Cage.Part.CFrame) then
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = world.Cage.Part.CFrame
-                                for i = 14, 18 do
+                                for i = 6, 9 do
+                                    local args = {
+	                                    "map_back_garden"
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LobbySetMap_" .. i):InvokeServer(unpack(args))
                                     local args2 = {
 	                                    1
                                     }
