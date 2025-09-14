@@ -10,7 +10,7 @@ repeat _wait() until game:GetService("Players").LocalPlayer.PlayerGui.LogicHolde
 local GuiService = game:GetService("GuiService")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 GuiService.AutoSelectGuiEnabled = true
--- task.wait(5)
+task.wait(5)
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
 local function AutoSkip()
@@ -161,9 +161,10 @@ local function PlayLose()
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
     end
     if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.GameEnd.Visible then
+        game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("RestartGame"):InvokeServer()
     end
-    game.Players.LocalPlayer.Character.Humanoid:MoveTo(Vector3.new(-1.561105728149414 + math.random(-10, 10), 3.16474986076355, 309.835235595703 + math.random(-10, 10)))
+    -- game.Players.LocalPlayer.Character.Humanoid:MoveTo(Vector3.new(-1.561105728149414 + math.random(-10, 10), 3.16474986076355, 309.835235595703 + math.random(-10, 10)))
     -- if not workspace.Map.Entities:FindFirstChild("unit_pineapple") then
     --     local args = {
 	--         "unit_pineapple",
@@ -208,7 +209,7 @@ local function PlayLose()
     if game:GetService("Players").LocalPlayer:GetAttribute("Cash") > 125 then
         UpgradeU()
     end
-    task.wait()
+    task.wait(2)
 end
 local function RedeemCode()
     local codes = {"PLAZA", "MYSTERY", "SLIME", "WASTE"}
@@ -231,6 +232,7 @@ local function PlayWin()
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
     end
     if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.GameEnd.Visible then
+        game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("RestartGame"):InvokeServer()
     end
     local radishCount = 0
@@ -282,6 +284,7 @@ local function PlayWin()
     if game:GetService("Players").LocalPlayer:GetAttribute("Cash") > 135 then
         UpgradeU()
     end
+    task.wait(2)
 end
 
 local function CheckOut()
@@ -312,6 +315,7 @@ local function PlayMap(map)
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
     end
     if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.GameEnd.Visible then
+        
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("RestartGame"):InvokeServer()
     end
     local radishCount = 0
@@ -346,6 +350,7 @@ local function PlayMap(map)
     -- if game:GetService("Players").LocalPlayer:GetAttribute("Cash") > 135 then
     --     UpgradeU()
     -- end
+    task.wait(10)
 end
 
 
