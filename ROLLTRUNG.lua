@@ -1,5 +1,5 @@
-local SeedWaitRoll = 6000 -- Chỉnh Số Tiền Đủ Sẽ Roll
-local SeedStopRoll = 3600 -- Chỉnh Số Tiền Giữ Lại
+local SeedWaitRoll = 4500 -- Chỉnh Số Tiền Đủ Sẽ Roll
+local SeedStopRoll = 4500 -- Chỉnh Số Tiền Giữ Lại
 local _wait = task.wait
 
 repeat _wait() until game:IsLoaded()
