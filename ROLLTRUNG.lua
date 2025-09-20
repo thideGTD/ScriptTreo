@@ -1,5 +1,5 @@
-local SeedWaitRoll = 4500 -- Chỉnh Số Tiền Đủ Sẽ Roll
-local SeedStopRoll = 4500 -- Chỉnh Số Tiền Giữ Lại
+local SeedWaitRoll = 4500
+local SeedStopRoll = 4500
 local _wait = task.wait
 
 repeat _wait() until game:IsLoaded()
@@ -12,12 +12,31 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local StartRolls = false
 
 local function Roll()
-    local args = {
-	    "unit_anime", -- Confusion: ub_tropical, Beehive: ub_bee, Lucky Clover : ub_sun
-	    10
+    -- local args = {
+	   --  "ub_tropical",
+	   --  10
+    -- }
+    -- game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+	local args = {
+	     "ub_anime",
+	     10  
     }
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	task.wait(0.5)
+
+
+	-- task.wait(0.5)
+	--  local args = {
+	--     "ub_sun",
+	--     10
+ --    }
+ --    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+	-- task.wait(0.5)
+ --    local args = {
+	--     "ub_bee",
+	--     10
+ --    }
+ --    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+
 end
 
 local function RemoveUnit()
@@ -52,7 +71,7 @@ end
 local function StartRoll()
 	while StartRolls do
 		local Seeds = tostring(player.leaderstats.Seeds.Value)
-		local SeedHave = tonumber(Seeds:match("[kK]") and Seeds:gsub("[kK]", "") * 1000 or Seeds:gsub(",", ""))
+		local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
 		if SeedHave <= SeedStopRoll then
 			StartRolls = false
 			break
@@ -66,13 +85,28 @@ end
 
 while true do
 	local Seeds = tostring(player.leaderstats.Seeds.Value)
-	local SeedHave = tonumber(Seeds:match("[kK]") and Seeds:gsub("[kK]", "") * 1000 or Seeds:gsub(",", ""))
-	if SeedHave >= SeedWaitRoll and game.Players.LocalPlayer.AccountAge > 14 then
+	local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
+	if SeedHave >= SeedWaitRoll and game.Players.LocalPlayer.AccountAge > 12 then
 		StartRolls = true
 		StartRoll()
 	end
 	_wait(5)
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
