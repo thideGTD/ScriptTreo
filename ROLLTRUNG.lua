@@ -13,7 +13,7 @@ local StartRolls = false
 
 local function Roll()
 	local args = {
-	     "ub_bee", -- ub_sun : clover, ub_bee: beehive, ub_tropical: confusion, ub_anime: chomp
+	     "ub_anime", -- ub_sun : clover, ub_bee: beehive, ub_tropical: confusion, ub_anime: chomp
 	     10  
     }
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
