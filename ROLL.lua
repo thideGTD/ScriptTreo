@@ -80,7 +80,7 @@ local function StartRoll()
 			StartRolls = false
 			break
 		end
-		
+		print('ROLLL')
 		Roll()
 		task.spawn(RemoveUnit)
 		_wait(2)
@@ -92,11 +92,13 @@ while true do
 	local Seeds = tostring(player.leaderstats.Seeds.Value)
 	local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
 	if SeedHave >= SeedWaitRoll then
+		print('ENOUGH')
 		StartRolls = true
 		StartRoll()
 	end
 	_wait(5)
 end
+
 
 
 
