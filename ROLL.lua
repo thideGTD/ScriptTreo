@@ -73,6 +73,7 @@ end
 
 local function StartRoll()
 	while StartRolls do
+		local player = game:GetService("Players").LocalPlayer
 		local Seeds = tostring(player.leaderstats.Seeds.Value)
 		local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
 		if SeedHave <= SeedStopRoll then
@@ -87,6 +88,7 @@ local function StartRoll()
 end
 
 while true do
+	local player = game:GetService("Players").LocalPlayer
 	local Seeds = tostring(player.leaderstats.Seeds.Value)
 	local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
 	if SeedHave >= SeedWaitRoll and game.Players.LocalPlayer.AccountAge > 12 then
@@ -95,6 +97,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
