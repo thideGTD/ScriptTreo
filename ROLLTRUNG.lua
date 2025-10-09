@@ -1,5 +1,5 @@
-local SeedWaitRoll = 4500	
-local SeedStopRoll = 4500
+local SeedWaitRoll = 200000
+local SeedStopRoll = 200000
 local _wait = task.wait
 
 repeat _wait() until game:IsLoaded()
@@ -12,11 +12,31 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local StartRolls = false
 
 local function Roll()
+    -- local args = {
+	   --  "ub_tropical",
+	   --  10
+    -- }
+    -- game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
 	local args = {
-	     "ub_tropical", -- ub_sun : clover, ub_bee: beehive, ub_tropical: confusion, ub_anime: chomp
+	     "ub_bee",
 	     10  
     }
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+
+
+	-- task.wait(0.5)
+	--  local args = {
+	--     "ub_sun",
+	--     10
+ --    }
+ --    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+	-- task.wait(0.5)
+ --    local args = {
+	--     "ub_bee",
+	--     10
+ --    }
+ --    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+
 end
 
 local function RemoveUnit()
@@ -50,13 +70,14 @@ end
 
 local function StartRoll()
 	while StartRolls do
+		local player = game:GetService("Players").LocalPlayer
 		local Seeds = tostring(player.leaderstats.Seeds.Value)
 		local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
 		if SeedHave <= SeedStopRoll then
 			StartRolls = false
 			break
 		end
-		
+		print('ROLLL')
 		Roll()
 		task.spawn(RemoveUnit)
 		_wait(2)
@@ -64,83 +85,16 @@ local function StartRoll()
 end
 
 while true do
+	local player = game:GetService("Players").LocalPlayer
 	local Seeds = tostring(player.leaderstats.Seeds.Value)
 	local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
-	if SeedHave >= SeedWaitRoll and game.Players.LocalPlayer.AccountAge > 12 then
+	if SeedHave >= SeedWaitRoll then
+		print('ENOUGH')
 		StartRolls = true
 		StartRoll()
 	end
 	_wait(5)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
