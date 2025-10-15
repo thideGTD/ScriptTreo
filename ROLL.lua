@@ -92,13 +92,14 @@ while true do
 	local Seeds = tostring(player.leaderstats.Seeds.Value)
 	local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
 	local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-	if SeedHave >= SeedWaitRoll and not a.GetData().GamePasses.gp_gamespeed_3 then then
+	if SeedHave >= SeedWaitRoll and not a.GetData().GamePasses.gp_gamespeed_3 then
 		print('ENOUGH')
 		StartRolls = true
 		StartRoll()
 	end
 	_wait(5)
 end
+
 
 
 
