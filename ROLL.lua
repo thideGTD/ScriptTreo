@@ -1,5 +1,5 @@
-local SeedWaitRoll = 200000000
-local SeedStopRoll = 200000000
+local SeedWaitRoll = 500000
+local SeedStopRoll = 500000
 local _wait = task.wait
 
 repeat _wait() until game:IsLoaded()
@@ -99,6 +99,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
