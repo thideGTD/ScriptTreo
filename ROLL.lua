@@ -83,7 +83,7 @@ local function StartRoll()
 		print('ROLLL')
 		Roll()
 		task.spawn(RemoveUnit)
-		_wait(0.5)
+		_wait()
 	end
 end
 
@@ -99,6 +99,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
