@@ -125,8 +125,11 @@ while true do
 		StartRolls = true
 		StartRoll()
 	end
+	setfpscap(8)
+	game:GetService("RunService"):Set3dRenderingEnabled(false)
 	_wait(5)
 end
+
 
 
 
