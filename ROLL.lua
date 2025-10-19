@@ -94,7 +94,12 @@ local function RemoveUnit()
 		print("✅ Không có unit nào cần xoá.")
 	end
 end
-
+local function CheckRemove()
+	while true do
+		RemoveUnit()
+		task.wait(5)
+	end
+end
 local function StartRoll()
 	while StartRolls do
 		local player = game:GetService("Players").LocalPlayer
@@ -106,12 +111,10 @@ local function StartRoll()
 		end
 		print('ROLLL')
 		Roll()
-		task.spawn(RemoveUnit)
-		task.spawn(AutoUnEquip)
-		_wait(2)
+		_wait()
 	end
 end
-
+task.spawn(CheckRemove)
 while true do
 	local player = game:GetService("Players").LocalPlayer
 	local Seeds = tostring(player.leaderstats.Seeds.Value)
@@ -124,6 +127,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
