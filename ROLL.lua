@@ -103,6 +103,7 @@ local function StartRoll()
 		print('ROLLL')
 		Roll()
 		task.spawn(RemoveUnit)
+		task.spawn(AutoUnEquip)
 		_wait()
 	end
 end
@@ -119,6 +120,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
