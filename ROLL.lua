@@ -9,11 +9,24 @@ local logicRoot = player:WaitForChild("PlayerGui"):WaitForChild("LogicHolder")
 local modulesDir = logicRoot:WaitForChild("ClientLoader"):WaitForChild("Modules")
 local ClientDataHandler = require(modulesDir:WaitForChild("ClientDataHandler"))
 local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("DeleteUnit")
+local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
 
 task.spawn(function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/TNGHIA.lua"))()
 end)
+
+local function AntiAfk2()
+    task.spawn(
+        function()
+            while true do
+                VirtualUser:CaptureController()
+                VirtualUser:ClickButton2(Vector2.new())
+                task.wait(5)
+            end
+        end
+    )
+end
 
 local function AutoUnEquip()
     local ClientDataHandler = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
@@ -33,7 +46,7 @@ local function AutoUnEquip()
         end
     end
 end
-
+AntiAfk2()
 local function Roll()
     -- local args = {
 	   --  "ub_tropical",
@@ -129,6 +142,7 @@ while true do
 	game:GetService("RunService"):Set3dRenderingEnabled(false)
 	_wait(5)
 end
+
 
 
 
