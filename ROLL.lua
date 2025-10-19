@@ -14,6 +14,26 @@ local StartRolls = false
 task.spawn(function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/TNGHIA.lua"))()
 end)
+
+local function AutoUnEquip()
+    local ClientDataHandler = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+    local inventory = ClientDataHandler.GetValue("Inventory")
+    local Share = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.SharedItemData)
+    for uniqueId, unitData in pairs(inventory or {}) do
+        local itemId = unitData.ItemData and unitData.ItemData.ID
+        local rarity = Share.GetItem(itemId).Rarity
+        if unitData.Equipped then
+            local args = {
+                tostring(uniqueId),
+                false
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SetUnitEquipped"):InvokeServer(
+                unpack(args)
+            )
+        end
+    end
+end
+
 local function Roll()
     -- local args = {
 	   --  "ub_tropical",
@@ -99,6 +119,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
