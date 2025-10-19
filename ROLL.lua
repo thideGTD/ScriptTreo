@@ -63,6 +63,9 @@ local function Roll()
 end
 
 local function RemoveUnit()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("DeleteUnit")
+    local ClientDataHandler = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
 	local inventory = ClientDataHandler.GetValue("Inventory")
 	local toDelete = {}
 	local kept = {}
@@ -71,7 +74,7 @@ local function RemoveUnit()
 		local itemId = unitData.ItemData and unitData.ItemData.ID
 		local rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId))
 
-		if rarity.Rarity == "ra_godly" or rarity.Rarity == "ra_exclusive" or itemId == "unit_tomato_plant" or itemId or "unit_rafflesia" or itemId == "unit_lawnmower" then
+		if rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive" then
 			kept[itemId] = true
 			continue
 		end
@@ -86,6 +89,7 @@ local function RemoveUnit()
 		pcall(function()
 			deleteRemote:InvokeServer(toDelete)
 		end)
+        task.wait()
 	else
 		print("✅ Không có unit nào cần xoá.")
 	end
@@ -120,6 +124,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
