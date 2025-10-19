@@ -108,7 +108,7 @@ local function StartRoll()
 		Roll()
 		task.spawn(RemoveUnit)
 		task.spawn(AutoUnEquip)
-		_wait()
+		_wait(2)
 	end
 end
 
@@ -124,6 +124,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
