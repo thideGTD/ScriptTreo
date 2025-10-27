@@ -85,7 +85,7 @@ local function RemoveUnit()
 
 	for uniqueId, unitData in pairs(inventory or {}) do
 		local itemId = unitData.ItemData and unitData.ItemData.ID
-        if itemId then
+        if itemId and game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId) then
 		    local rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId))
 
 		    if rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive" then
@@ -147,6 +147,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
