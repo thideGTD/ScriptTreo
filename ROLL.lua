@@ -85,26 +85,28 @@ local function RemoveUnit()
 
 	for uniqueId, unitData in pairs(inventory or {}) do
 		local itemId = unitData.ItemData and unitData.ItemData.ID
-		local rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId))
+        if itemId then
+		    local rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId))
 
-		if rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive" then
-			kept[itemId] = true
-			continue
-		end
-		if not kept[itemId] then
-			kept[itemId] = true
-		else
-			table.insert(toDelete, uniqueId)
-		end
-	end
-	if #toDelete > 0 then
-		print("🗑️ Deleting", #toDelete, "units...")
-		pcall(function()
-			deleteRemote:InvokeServer(toDelete)
-		end)
-        task.wait()
-	else
-		print("✅ Không có unit nào cần xoá.")
+		    if rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive" then
+			    kept[itemId] = true
+			    continue
+		    end
+		    if not kept[itemId] then
+			    kept[itemId] = true
+		    else
+			    table.insert(toDelete, uniqueId)
+ 		    end
+     	end
+	    if #toDelete > 0 then
+		    print("🗑️ Deleting", #toDelete, "units...")
+		    pcall(function()
+			    deleteRemote:InvokeServer(toDelete)
+		    end)
+            task.wait()
+	    else
+		    print("✅ Không có unit nào cần xoá.")
+        end
 	end
 end
 local function CheckRemove()
@@ -145,6 +147,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
