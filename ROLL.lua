@@ -109,6 +109,7 @@ local function RemoveUnit()
 end
 local function CheckRemove()
 	while true do
+		print('DELETEDELETE')
 		RemoveUnit()
 		task.wait(5)
 	end
@@ -144,6 +145,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
