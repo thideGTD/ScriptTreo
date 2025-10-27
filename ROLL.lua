@@ -85,19 +85,17 @@ local function RemoveUnit()
 
 	for uniqueId, unitData in pairs(inventory or {}) do
 		local itemId = unitData.ItemData and unitData.ItemData.ID
-        local unitrarity = game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId)
-        if itemId and unitrarity and unitrarity:IsA("ModuleScript") then
-            local rarity = require(unitrarity)
-		    if rarity and rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive" then
-			    kept[itemId] = true
-			    continue
-		    end
-		    if not kept[itemId] then
-			    kept[itemId] = true
-		    else
-			    table.insert(toDelete, uniqueId)
- 		    end
-        end
+		local rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId))
+
+		if rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive" then
+			kept[itemId] = true
+			continue
+		end
+		if not kept[itemId] then
+			kept[itemId] = true
+		else
+			table.insert(toDelete, uniqueId)
+		end
 	end
 	if #toDelete > 0 then
 		print("🗑️ Deleting", #toDelete, "units...")
@@ -107,7 +105,7 @@ local function RemoveUnit()
         task.wait()
 	else
 		print("✅ Không có unit nào cần xoá.")
-    end
+	end
 end
 local function CheckRemove()
 	while true do
@@ -147,6 +145,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
