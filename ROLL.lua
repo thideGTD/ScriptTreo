@@ -12,10 +12,6 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
 
-task.spawn(function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/TNGHIA.lua"))()
-end)
-
 local function AntiAfk2()
     task.spawn(
         function()
@@ -85,8 +81,11 @@ local function RemoveUnit()
 
 	for uniqueId, unitData in pairs(inventory or {}) do
 		local itemId = unitData.ItemData and unitData.ItemData.ID
-		local rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId)) or nil
-
+        if game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId) then
+		    local rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId))
+        else
+            local rarity = nil
+        end
 		if rarity and (rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive") then
 			kept[itemId] = true
 			continue
@@ -107,6 +106,8 @@ local function RemoveUnit()
 		print("✅ Không có unit nào cần xoá.")
 	end
 end
+RemoveUnit()
+
 local function CheckRemove()
 	while true do
 		print('DELETEDELETE')
