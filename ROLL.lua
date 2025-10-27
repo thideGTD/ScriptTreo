@@ -79,14 +79,15 @@ local function RemoveUnit()
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("DeleteUnit")
     local ClientDataHandler = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+	local Share = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.SharedItemData)
 	local inventory = ClientDataHandler.GetValue("Inventory")
 	local toDelete = {}
 	local kept = {}
 
 	for uniqueId, unitData in pairs(inventory or {}) do
 		local itemId = unitData.ItemData and unitData.ItemData.ID or nil
-        if itemId and game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId) then
-		    local rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(itemId))
+        if itemId then
+		    local rarity = Share.GetItem(itemId).Rarity
 
 		    if rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive" then
 			    kept[itemId] = true
@@ -147,6 +148,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
