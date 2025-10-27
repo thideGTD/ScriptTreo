@@ -97,17 +97,17 @@ local function RemoveUnit()
 		    else
 			    table.insert(toDelete, uniqueId)
  		    end
-	        if #toDelete > 0 then
-		        print("🗑️ Deleting", #toDelete, "units...")
-		        pcall(function()
-			        deleteRemote:InvokeServer(toDelete)
-		        end)
-                task.wait()
-	        else
-		        print("✅ Không có unit nào cần xoá.")
-            end
         end
 	end
+	if #toDelete > 0 then
+		print("🗑️ Deleting", #toDelete, "units...")
+		pcall(function()
+			deleteRemote:InvokeServer(toDelete)
+		end)
+        task.wait()
+	else
+		print("✅ Không có unit nào cần xoá.")
+    end
 end
 local function CheckRemove()
 	while true do
@@ -147,6 +147,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
