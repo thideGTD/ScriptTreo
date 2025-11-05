@@ -78,8 +78,8 @@ local function RemoveUnit()
 	local inventory = ClientDataHandler.GetValue("Inventory")
 	local toDelete = {}
 	local kept = {}
-	local rarity = "ra_godly"
 	for uniqueId, unitData in pairs(inventory or {}) do
+		local rarity = "ra_godly"
 		local itemId = unitData.ItemData and unitData.ItemData.ID
         if game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(tostring(itemId)) then
 		    rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(tostring(itemId))).Rarity
