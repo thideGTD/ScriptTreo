@@ -128,7 +128,7 @@ local function StartRoll()
 	    game:GetService("RunService"):Set3dRenderingEnabled(false)
 		local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
 		local SeedHave = tonumber(a.GetData().Seeds)
-		local Candy = tonumber(a.GetData().CandyCorns)
+		local CandyHave = tonumber(a.GetData().CandyCorns)
 		if SeedHave <= SeedStopRoll and CandyHave <= CandyStopRoll then
 			StartRolls = false
 			break
@@ -144,8 +144,7 @@ while true do
 	game:GetService("RunService"):Set3dRenderingEnabled(false)
 	local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
 	local SeedHave = tonumber(a.GetData().Seeds)
-	local Candy = tonumber(a.GetData().CandyCorns)
-	local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+	local CandyHave = tonumber(a.GetData().CandyCorns)
 	if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
 		print('ENOUGH')
 		StartRolls = true
@@ -153,39 +152,3 @@ while true do
 	end
 	_wait(5)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
