@@ -55,7 +55,7 @@ local function Roll()
 	     10  
     }
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	task.wait(2)
+	task.wait(0.5)
 	local args = {
 		"ub_halloween",
 		10
