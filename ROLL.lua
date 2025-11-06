@@ -55,13 +55,12 @@ local function Roll()
 	     10  
     }
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	if Candy > 900 then
-		local args = {
-			"ub_halloween",
-			10
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	end
+	task.wait(2)
+	local args = {
+		"ub_halloween",
+		10
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
 	-- task.wait(0.5)
 	--  local args = {
 	--     "ub_sun",
