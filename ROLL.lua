@@ -1,5 +1,7 @@
 local SeedWaitRoll = 4500
 local SeedStopRoll = 4500
+local CandyWaitRoll = 900
+local CandyStopRoll = 900
 local _wait = task.wait
 
 repeat _wait() until game:IsLoaded()
@@ -23,7 +25,6 @@ local function AntiAfk2()
         end
     )
 end
-
 local function AutoUnEquip()
     local ClientDataHandler = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
     local inventory = ClientDataHandler.GetValue("Inventory")
@@ -54,8 +55,13 @@ local function Roll()
 	     10  
     }
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-
-
+	if Candy > 900 then
+		local args = {
+			"ub_halloween",
+			10
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
+	end
 	-- task.wait(0.5)
 	--  local args = {
 	--     "ub_sun",
@@ -92,6 +98,7 @@ local function RemoveUnit()
 			continue
 		end
 		if not kept[itemId] then
+			print('Delete Unit')
 			kept[itemId] = true
 		else
 			table.insert(toDelete, uniqueId)
@@ -120,10 +127,10 @@ local function StartRoll()
 	while StartRolls do
 		setfpscap(8)
 	    game:GetService("RunService"):Set3dRenderingEnabled(false)
-		local player = game:GetService("Players").LocalPlayer
-		local Seeds = tostring(player.leaderstats.Seeds.Value)
-		local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
-		if SeedHave <= SeedStopRoll then
+		local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+		local SeedHave = tonumber(a.GetData().Seeds)
+		local Candy = tonumber(a.GetData().CandyCorns)
+		if SeedHave <= SeedStopRoll and CandyHave <= CandyStopRoll then
 			StartRolls = false
 			break
 		end
@@ -136,11 +143,11 @@ task.spawn(CheckRemove)
 while true do
 	setfpscap(8)
 	game:GetService("RunService"):Set3dRenderingEnabled(false)
-	local player = game:GetService("Players").LocalPlayer
-	local Seeds = tostring(player.leaderstats.Seeds.Value)
-	local SeedHave = tonumber(tostring(player.leaderstats.Seeds.Value):match("[kK]") and tostring(player.leaderstats.Seeds.Value):gsub("[kK]", "") * 1000 or tostring(player.leaderstats.Seeds.Value):match("[mM]") and tostring(player.leaderstats.Seeds.Value):gsub("[mM]", "") * 1000000 or tostring(player.leaderstats.Seeds.Value):match("[bB]") and tostring(player.leaderstats.Seeds.Value):gsub("[bB]", "") * 1000000000 or tostring(player.leaderstats.Seeds.Value):gsub(",", ""))
 	local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-	if SeedHave >= SeedWaitRoll then
+	local SeedHave = tonumber(a.GetData().Seeds)
+	local Candy = tonumber(a.GetData().CandyCorns)
+	local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+	if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
 		print('ENOUGH')
 		StartRolls = true
 		StartRoll()
