@@ -14,148 +14,185 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
 
-
--- task.spawn(function()
--- 		while true do
--- 			pcall(
--- 		end
--- end)
+-- Anti-AFK (đã an toàn)
 local function AntiAfk2()
-    task.spawn(
-        function()
-            while true do
+    task.spawn(function()
+        while true do
+            pcall(function()
                 VirtualUser:CaptureController()
                 VirtualUser:ClickButton2(Vector2.new())
-                task.wait(5)
+            end)
+            task.wait(5)
+        end
+    end)
+end
+
+-- Auto Unequip (đã bảo vệ)
+local function AutoUnEquip()
+    pcall(function()
+        local ClientDataHandler = require(player.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+        local inventory = ClientDataHandler.GetValue("Inventory")
+        local Share = require(player.PlayerGui.LogicHolder.ClientLoader.Modules.SharedItemData)
+        for uniqueId, unitData in pairs(inventory or {}) do
+            if unitData.Equipped then
+                local itemId = unitData.ItemData and unitData.ItemData.ID
+                local args = { tostring(uniqueId), false }
+                ReplicatedStorage.RemoteFunctions.SetUnitEquipped:InvokeServer(unpack(args))
             end
         end
-    )
+    end)
 end
-local function AutoUnEquip()
-    local ClientDataHandler = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-    local inventory = ClientDataHandler.GetValue("Inventory")
-    local Share = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.SharedItemData)
-    for uniqueId, unitData in pairs(inventory or {}) do
-        local itemId = unitData.ItemData and unitData.ItemData.ID
-        local rarity = Share.GetItem(itemId).Rarity
-        if unitData.Equipped then
-            local args = {
-                tostring(uniqueId),
-                false
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("SetUnitEquipped"):InvokeServer(
-                unpack(args)
-            )
+
+-- Roll (đã bảo vệ)
+local function Roll()
+    pcall(function()
+        local args1 = { "ub_sun", 10 }
+        ReplicatedStorage.RemoteFunctions.BuyUnitBox:InvokeServer(unpack(args1))
+        task.wait(0.5)
+
+        local args2 = { "ub_halloween", 10 }
+        ReplicatedStorage.RemoteFunctions.BuyUnitBox:InvokeServer(unpack(args2))
+    end)
+end
+
+-- Xóa unit (đã bảo vệ + giữ lại logic giữ godly/exclusive)
+local function RemoveUnit()
+    pcall(function()
+        local inventory = ClientDataHandler.GetValue("Inventory")
+        local toDelete = {}
+        local kept = {}
+
+        for uniqueId, unitData in pairs(inventory or {}) do
+            local itemId = unitData.ItemData and unitData.ItemData.ID
+            local rarity = "ra_godly"
+
+            local config = player.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(tostring(itemId))
+            if config then
+                rarity = require(config).Rarity
+            else
+                rarity = nil
+            end
+
+            if rarity == "ra_godly" or rarity == "ra_exclusive" or
+               itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" then
+                kept[itemId] = true
+            elseif not kept[itemId] then
+                kept[itemId] = true
+            else
+                table.insert(toDelete, uniqueId)
+            end
+        end
+
+        if #toDelete > 0 then
+            print("🗑️ Deleting", #toDelete, "units...")
+            deleteRemote:InvokeServer(toDelete)
+        else
+            print("✅ Không có unit nào cần xoá.")
+        end
+    end)
+end
+
+-- Vòng lặp xóa unit định kỳ (đã bảo vệ)
+local function CheckRemove()
+    while true do
+        local success, err = pcall(RemoveUnit)
+        if not success then
+            warn("Lỗi trong RemoveUnit:", err)
+        end
+        task.wait(5)
+    end
+end
+
+-- Vòng lặp Roll khi đủ tài nguyên (đã bảo vệ)
+local function StartRoll()
+    while StartRolls do
+        local success, err = pcall(function()
+            setfpscap(8)
+            game:GetService("RunService"):Set3dRenderingEnabled(false)
+
+            local data = ClientDataHandler.GetData()
+            local SeedHave = tonumber(data.Seeds) or 0
+            local CandyHave = tonumber(data.CandyCorns) or 0
+
+            if SeedHave <= SeedStopRoll and CandyHave <= CandyStopRoll then
+                StartRolls = false
+                return
+            end
+
+            print('ROLLL')
+            Roll()
+            _wait()
+        end)
+
+        if not success then
+            warn("Lỗi trong StartRoll:", err)
+            task.wait(1) -- Đợi 1 giây trước khi thử lại
         end
     end
 end
+
+-- === KHỞI ĐỘNG ===
 AntiAfk2()
-local function Roll()
-    -- local args = {
-	   --  "ub_tropical",
-	   --  10
-    -- }
-    -- game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	local args = {
-	     "ub_sun",
-	     10  
-    }
-    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	task.wait(0.5)
-	local args = {
-		"ub_halloween",
-		10
-	}
-	game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	-- task.wait(0.5)
-	--  local args = {
-	--     "ub_sun",
-	--     10
- --    }
- --    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-	-- task.wait(0.5)
- --    local args = {
-	--     "ub_bee",
-	--     10
- --    }
- --    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-
-end
-
-local function RemoveUnit()
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("DeleteUnit")
-    local ClientDataHandler = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-	local inventory = ClientDataHandler.GetValue("Inventory")
-	local toDelete = {}
-	local kept = {}
-	for uniqueId, unitData in pairs(inventory or {}) do
-		local rarity = "ra_godly"
-		local itemId = unitData.ItemData and unitData.ItemData.ID
-        if game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(tostring(itemId)) then
-		    rarity = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(tostring(itemId))).Rarity
-        else
-            rarity = nil
-        end
-		print(itemId, rarity)
-		if rarity and (rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity == "ra_exclusive") then
-			kept[itemId] = true
-			continue
-		end
-		if not kept[itemId] then
-			print('Delete Unit')
-			kept[itemId] = true
-		else
-			table.insert(toDelete, uniqueId)
-		end
-	end
-	if #toDelete > 0 then
-		print("🗑️ Deleting", #toDelete, "units...")
-		pcall(function()
-			deleteRemote:InvokeServer(toDelete)
-		end)
-        task.wait()
-	else
-		print("✅ Không có unit nào cần xoá.")
-	end
-end
-RemoveUnit()
-
-local function CheckRemove()
-	while true do
-		print('DELETEDELETE')
-		RemoveUnit()
-		task.wait(5)
-	end
-end
-local function StartRoll()
-	while StartRolls do
-		setfpscap(8)
-	    game:GetService("RunService"):Set3dRenderingEnabled(false)
-		local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-		local SeedHave = tonumber(a.GetData().Seeds)
-		local CandyHave = tonumber(a.GetData().CandyCorns)
-		if SeedHave <= SeedStopRoll and CandyHave <= CandyStopRoll then
-			StartRolls = false
-			break
-		end
-		print('ROLLL')
-		Roll()
-		_wait()
-	end
-end
+AutoUnEquip()
 task.spawn(CheckRemove)
-while true do
-	setfpscap(8)
-	game:GetService("RunService"):Set3dRenderingEnabled(false)
-	local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-	local SeedHave = tonumber(a.GetData().Seeds)
-	local CandyHave = tonumber(a.GetData().CandyCorns)
-	if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
-		print('ENOUGH')
-		StartRolls = true
-		StartRoll()
-	end
-	_wait(5)
+
+
+local function WH(message, typee)
+    local url = "https://discord.com/api/webhooks/1329788152465981451/DgZ0MkE2_dAxKou-GsHwAMcDquiUVCEXj6rcA1iOjb2OamkiNpB2DOR-0vz3HO8V6PQS"
+    local http = game:GetService("HttpService")
+    
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    
+    local embed = {
+        title = "New Notification",
+        description = message,
+        color = 3447003,
+        author = {
+            name = "Error Bot",
+            icon_url = "https://i.imgur.com/4A3TGlT.png"
+        },
+        fields = {
+            {name = "Status", value = typee, inline = true}
+        }
+    }
+    
+    local data = {
+        ["embeds"] = {embed}
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
 end
 
+while true do
+    local success, err = pcall(function()
+        setfpscap(8)
+        game:GetService("RunService"):Set3dRenderingEnabled(false)
+
+        local data = ClientDataHandler.GetData()
+        local SeedHave = tonumber(data.Seeds) or 0
+        local CandyHave = tonumber(data.CandyCorns) or 0
+
+        if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
+            if not StartRolls then
+                print('ENOUGH - Bắt đầu Roll!')
+                StartRolls = true
+                task.spawn(StartRoll)
+            end
+        end
+
+        _wait(5)
+    end)
+
+    if not success then
+		WH(tostring(err), "error Roll")
+        warn("Lỗi trong vòng lặp chính:", err)
+        task.wait(5) -- Đợi rồi thử lại
+    end
+end
