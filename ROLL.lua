@@ -14,34 +14,6 @@ local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForCh
 local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
 
--- Anti-AFK (đã an toàn)
-local function AntiAfk2()
-    task.spawn(function()
-        while true do
-            pcall(function()
-                VirtualUser:CaptureController()
-                VirtualUser:ClickButton2(Vector2.new())
-            end)
-            task.wait(5)
-        end
-    end)
-end
-
--- Auto Unequip (đã bảo vệ)
-local function AutoUnEquip()
-    pcall(function()
-        local ClientDataHandler = require(player.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-        local inventory = ClientDataHandler.GetValue("Inventory")
-        local Share = require(player.PlayerGui.LogicHolder.ClientLoader.Modules.SharedItemData)
-        for uniqueId, unitData in pairs(inventory or {}) do
-            if unitData.Equipped then
-                local itemId = unitData.ItemData and unitData.ItemData.ID
-                local args = { tostring(uniqueId), false }
-                ReplicatedStorage.RemoteFunctions.SetUnitEquipped:InvokeServer(unpack(args))
-            end
-        end
-    end)
-end
 
 -- Roll (đã bảo vệ)
 local function Roll()
@@ -132,8 +104,6 @@ local function StartRoll()
 end
 
 -- === KHỞI ĐỘNG ===
-AntiAfk2()
-AutoUnEquip()
 task.spawn(CheckRemove)
 
 
@@ -196,6 +166,7 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
+
 
 
 
