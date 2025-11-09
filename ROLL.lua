@@ -74,20 +74,18 @@ local function RemoveUnit()
             local config = player.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(tostring(itemId))
             if config then
                 rarity = require(config).Rarity
+                if rarity == "ra_godly" or rarity == "ra_exclusive" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" then
+                    kept[itemId] = true
+                elseif not kept[itemId] then
+                    kept[itemId] = true
+                else
+                    print(uniqueId, itemId)
+                    table.insert(toDelete, uniqueId)
+                end
             else
                 rarity = nil
             end
-
-            if rarity == "ra_godly" or rarity == "ra_exclusive" or
-               itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" then
-                kept[itemId] = true
-            elseif not kept[itemId] then
-                kept[itemId] = true
-            else
-                table.insert(toDelete, uniqueId)
-            end
         end
-
         if #toDelete > 0 then
             print("🗑️ Deleting", #toDelete, "units...")
             deleteRemote:InvokeServer(toDelete)
@@ -143,9 +141,6 @@ task.spawn(CheckRemove)
 
 while true do
     local success, err = pcall(function()
-        setfpscap(8)
-        game:GetService("RunService"):Set3dRenderingEnabled(false)
-
         local data = ClientDataHandler.GetData()
         local SeedHave = tonumber(data.Seeds) or 0
         local CandyHave = tonumber(data.CandyCorns) or 0
@@ -167,7 +162,6 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
-
 
 
 
