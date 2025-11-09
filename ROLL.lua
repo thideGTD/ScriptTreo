@@ -150,7 +150,7 @@ while true do
         local SeedHave = tonumber(data.Seeds) or 0
         local CandyHave = tonumber(data.CandyCorns) or 0
 
-        if SeedHave >= SeedWaitRolls or CandyHave >= CandyWaitRoll then
+        if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
             if not StartRolls then
                 print('ENOUGH - Bắt đầu Roll!')
                 StartRolls = true
@@ -167,6 +167,7 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
+
 
 
 
