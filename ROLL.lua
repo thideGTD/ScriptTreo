@@ -160,10 +160,3 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
-
-game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox").OnClientEvent:Connect(function(id,pet)
-print(id,pet)
-end)
-
-
-
