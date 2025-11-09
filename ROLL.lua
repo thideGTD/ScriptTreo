@@ -15,6 +15,39 @@ local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
 
 
+local function WH(message, typee)
+    local url = "https://discord.com/api/webhooks/1329788152465981451/DgZ0MkE2_dAxKou-GsHwAMcDquiUVCEXj6rcA1iOjb2OamkiNpB2DOR-0vz3HO8V6PQS"
+    local http = game:GetService("HttpService")
+    
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    
+    local embed = {
+        title = "New Notification",
+        description = message,
+        color = 3447003,
+        author = {
+            name = "Error Bot",
+            icon_url = "https://i.imgur.com/4A3TGlT.png"
+        },
+        fields = {
+            {name = "Status", value = typee, inline = true}
+        }
+    }
+    
+    local data = {
+        ["embeds"] = {embed}
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+end
+
 -- Roll (đã bảo vệ)
 local function Roll()
     pcall(function()
@@ -69,6 +102,7 @@ local function CheckRemove()
     while true do
         local success, err = pcall(RemoveUnit)
         if not success then
+            WH(tostring(err), "error Roll")
             warn("Lỗi trong RemoveUnit:", err)
         end
         task.wait(5)
@@ -97,6 +131,7 @@ local function StartRoll()
         end)
 
         if not success then
+            WH(tostring(err), "error Roll")
             warn("Lỗi trong StartRoll:", err)
             task.wait(1) -- Đợi 1 giây trước khi thử lại
         end
@@ -105,40 +140,6 @@ end
 
 -- === KHỞI ĐỘNG ===
 task.spawn(CheckRemove)
-
-
-local function WH(message, typee)
-    local url = "https://discord.com/api/webhooks/1329788152465981451/DgZ0MkE2_dAxKou-GsHwAMcDquiUVCEXj6rcA1iOjb2OamkiNpB2DOR-0vz3HO8V6PQS"
-    local http = game:GetService("HttpService")
-    
-    local headers = {
-        ["Content-Type"] = "application/json"
-    }
-    
-    local embed = {
-        title = "New Notification",
-        description = message,
-        color = 3447003,
-        author = {
-            name = "Error Bot",
-            icon_url = "https://i.imgur.com/4A3TGlT.png"
-        },
-        fields = {
-            {name = "Status", value = typee, inline = true}
-        }
-    }
-    
-    local data = {
-        ["embeds"] = {embed}
-    }
-    local body = http:JSONEncode(data)
-    local response = request({
-        Url = url,
-        Method = "POST",
-        Headers = headers,
-        Body = body
-    })
-end
 
 while true do
     local success, err = pcall(function()
@@ -149,7 +150,7 @@ while true do
         local SeedHave = tonumber(data.Seeds) or 0
         local CandyHave = tonumber(data.CandyCorns) or 0
 
-        if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
+        if SeedHave >= SeedWaitRolls or CandyHave >= CandyWaitRoll then
             if not StartRolls then
                 print('ENOUGH - Bắt đầu Roll!')
                 StartRolls = true
@@ -166,7 +167,6 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
-
 
 
 
