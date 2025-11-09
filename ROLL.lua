@@ -13,7 +13,7 @@ local ClientDataHandler = require(modulesDir:WaitForChild("ClientDataHandler"))
 local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("DeleteUnit")
 local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
-
+task.wait(5)
 
 local function WH(message, typee)
     local url = "https://discord.com/api/webhooks/1329788152465981451/DgZ0MkE2_dAxKou-GsHwAMcDquiUVCEXj6rcA1iOjb2OamkiNpB2DOR-0vz3HO8V6PQS"
