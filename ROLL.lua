@@ -111,12 +111,10 @@ end
 local function StartRoll()
     while StartRolls do
         local success, err = pcall(function()
-            setfpscap(8)
-            game:GetService("RunService"):Set3dRenderingEnabled(false)
 
             local data = ClientDataHandler.GetData()
-            local SeedHave = tonumber(data.Seeds) or 0
-            local CandyHave = tonumber(data.CandyCorns) or 0
+            local SeedHave = tonumber(data.Seeds)
+            local CandyHave = tonumber(data.CandyCorns)
 
             if SeedHave <= SeedStopRoll and CandyHave <= CandyStopRoll then
                 StartRolls = false
@@ -142,8 +140,8 @@ task.spawn(CheckRemove)
 while true do
     local success, err = pcall(function()
         local data = ClientDataHandler.GetData()
-        local SeedHave = tonumber(data.Seeds) or 0
-        local CandyHave = tonumber(data.CandyCorns) or 0
+        local SeedHave = tonumber(data.Seeds)
+        local CandyHave = tonumber(data.CandyCorns)
 
         if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
             if not StartRolls then
@@ -163,6 +161,9 @@ while true do
     end
 end
 
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox").OnClientEvent:Connect(function(id,pet)
+print(id,pet)
+end)
 
 
 
