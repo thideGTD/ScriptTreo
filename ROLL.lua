@@ -74,16 +74,17 @@ local function RemoveUnit()
             local config = player.PlayerGui.LogicHolder.ClientLoader.SharedConfig.ItemData.Units.Configs:FindFirstChild(tostring(itemId))
             if config then
                 rarity = require(config).Rarity
-                if rarity == "ra_godly" or rarity == "ra_exclusive" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" then
-                    kept[itemId] = true
-                elseif not kept[itemId] then
-                    kept[itemId] = true
-                else
-                    print(uniqueId, itemId)
-                    table.insert(toDelete, uniqueId)
-                end
             else
                 rarity = nil
+            end
+
+            if rarity ~= nil and rarity == "ra_godly" or rarity == "ra_exclusive" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" then
+                kept[itemId] = true
+            elseif not kept[itemId] then
+                kept[itemId] = true
+            else
+                print(uniqueId, itemId)
+                table.insert(toDelete, uniqueId)
             end
         end
         if #toDelete > 0 then
@@ -103,7 +104,7 @@ local function CheckRemove()
             WH(tostring(err), "error Roll")
             warn("Lỗi trong RemoveUnit:", err)
         end
-        task.wait(5)
+        task.wait(10)
     end
 end
 
@@ -144,11 +145,10 @@ while true do
         local CandyHave = tonumber(data.CandyCorns)
 
         if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
-            print('ENOUGH - Bắt đầu Roll!')
-            StartRolls = true
-            task.spawn(StartRoll)
+                print('ENOUGH - Bắt đầu Roll!')
+                StartRolls = true
+                task.spawn(StartRoll)
         end
-
         _wait(5)
     end)
 
