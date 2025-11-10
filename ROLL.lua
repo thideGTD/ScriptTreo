@@ -145,9 +145,9 @@ while true do
         local CandyHave = tonumber(data.CandyCorns)
 
         if SeedHave >= SeedWaitRoll or CandyHave >= CandyWaitRoll then
-                print('ENOUGH - Bắt đầu Roll!')
-                StartRolls = true
-                task.spawn(StartRoll)
+            print('ENOUGH - Bắt đầu Roll!')
+            StartRolls = true
+            task.spawn(StartRoll)
         end
         _wait(5)
     end)
