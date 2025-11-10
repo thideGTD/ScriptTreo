@@ -13,6 +13,7 @@ local ClientDataHandler = require(modulesDir:WaitForChild("ClientDataHandler"))
 local deleteRemote = ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("DeleteUnit")
 local VirtualUser = game:GetService("VirtualUser")
 local StartRolls = false
+local Load = false
 task.wait(5)
 
 local function WH(message, typee)
@@ -148,6 +149,11 @@ while true do
             print('ENOUGH - Bắt đầu Roll!')
             StartRolls = true
             task.spawn(StartRoll)
+        else
+            if Local == false then
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/FarmLoad.lua"))()
+                Load = true
+            end
         end
         _wait(5)
     end)
