@@ -54,7 +54,7 @@ local function Roll()
     pcall(function()
         local args1 = { "ub_sun", 10 }
         ReplicatedStorage.RemoteFunctions.BuyUnitBox:InvokeServer(unpack(args1))
-        task.wait(0.5)
+        task.wait(0.1)
 
         local args2 = { "ub_halloween", 10 }
         ReplicatedStorage.RemoteFunctions.BuyUnitBox:InvokeServer(unpack(args2))
@@ -150,7 +150,7 @@ while true do
             StartRolls = true
             task.spawn(StartRoll)
         else
-            if Local == false then
+            if Load == false then
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/FarmLoad.lua"))()
                 Load = true
             end
