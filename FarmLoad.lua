@@ -8,7 +8,7 @@ repeat _wait() until game:GetService("Players").LocalPlayer.PlayerGui.LogicHolde
 local GuiService = game:GetService("GuiService")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 GuiService.AutoSelectGuiEnabled = true
-task.wait(5)
+-- task.wait(5)
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
 local function AutoSkip()
