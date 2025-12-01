@@ -485,27 +485,27 @@ local function AntiLag()
         end
     )
 end
-local function LowCpu()
-    for _, v in pairs(workspace.Map:GetChildren()) do
-        if v.Name ~= "LobbiesFarm" and v.Name ~= "BackGarden" and v.Name ~= "Model" then
-            v:Destroy()
-        end
-    end
-    if workspace.Map:FindFirstChild("Model") then
-        for _, v in pairs(workspace.Map.Model:GetChildren()) do
-            if v.Name ~= "Floor" then
-                v:Destroy()
-            end
-        end
-    else
-        warn("Model not found in workspace.Map")
-    end
-    for _, v in pairs(workspace:GetChildren()) do
-        if v.Name ~= game.Players.LocalPlayer.Name and v:IsA("Model") then
-            v:Destroy()
-        end
-    end
-end
+-- local function LowCpu()
+--     for _, v in pairs(workspace.Map:GetChildren()) do
+--         if v.Name ~= "Garden" and v.Name ~= "BackGarden" and v.Name ~= "Model" then
+--             v:Destroy()
+--         end
+--     end
+--     if workspace.Map:FindFirstChild("Model") then
+--         for _, v in pairs(workspace.Map.Model:GetChildren()) do
+--             if v.Name ~= "Floor" then
+--                 v:Destroy()
+--             end
+--         end
+--     else
+--         warn("Model not found in workspace.Map")
+--     end
+--     for _, v in pairs(workspace:GetChildren()) do
+--         if v.Name ~= game.Players.LocalPlayer.Name and v:IsA("Model") then
+--             v:Destroy()
+--         end
+--     end
+-- end
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HttpService = game:GetService("HttpService")
@@ -690,7 +690,7 @@ local function ClearUnity()
 end
 
 local function JoinMap(maps)
-    local parttouch = workspace.Map.LobbiesFarm
+    local parttouch = workspace.Map.Garden.LobbiesFarm
     for map, world in pairs(parttouch:GetChildren()) do
         local maxDistance = 7 -- Khoảng cách tối đa (studs)
         if world:GetAttribute("MaxPlayers") == 1 then
@@ -742,7 +742,7 @@ local function UpdateMapWin()
 end
 local Wins = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.Stats.Items.Frame.ScrollingFrame.GamesWon.Items.Items.Val
 local function scanmap()
-    local parttouch = workspace.Map.LobbiesFarm
+    local parttouch = workspace.Map.Garden.LobbiesFarm
     for map,world in pairs(parttouch:GetChildren()) do
         if world:GetAttribute("MapId") == "map_back_garden" then
             return true
@@ -777,7 +777,7 @@ task.spawn(function()
 end)
 local function main()
     if game.PlaceId == 108533757090220 then
-        LowCpu()
+        -- LowCpu()
         if game:GetService("ReplicatedStorage").RemoteFunctions:FindFirstChild("ClientSetFlag") then
             game:GetService("ReplicatedStorage").RemoteFunctions.ClientSetFlag:Destroy() 
         end
@@ -797,7 +797,7 @@ local function main()
                     ReturnForLobby()
                 else
                     if Have and #Players:GetPlayers() > 3 then
-                        local parttouch = workspace.Map.LobbiesFarm
+                        local parttouch = workspace.Map.Garden.LobbiesFarm
                         for map,world in pairs(parttouch:GetChildren()) do
                             if world:GetAttribute("MaxPlayers") > 0 then
                                 if world:GetAttribute("Players") == 0 then
@@ -827,7 +827,7 @@ local function main()
                 if not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Tomato") then
                     ReturnForLobby()
                 elseif #Players:GetPlayers() > 0 then
-                    local parttouch = workspace.Map.LobbiesFarm
+                    local parttouch = workspace.Map.Garden.LobbiesFarm
                     for map,world in pairs(parttouch:GetChildren()) do
                         if world:GetAttribute("Players") >= 1 and world:GetAttribute("MaxPlayers") == 4 then
                             if world then
