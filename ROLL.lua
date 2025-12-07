@@ -1,5 +1,5 @@
-local SeedWaitRoll = 4500
-local SeedStopRoll = 4500
+local SeedWaitRoll = 4501
+local SeedStopRoll = 4501
 local CandyWaitRoll = 1800
 local CandyStopRoll = 1800
 local _wait = task.wait
@@ -163,5 +163,6 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
+
 
 
