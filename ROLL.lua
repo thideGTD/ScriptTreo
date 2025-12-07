@@ -1,7 +1,7 @@
 local SeedWaitRoll = 4500
 local SeedStopRoll = 4500
-local CandyWaitRoll = 900
-local CandyStopRoll = 900
+local CandyWaitRoll = 1800
+local CandyStopRoll = 1800
 local _wait = task.wait
 
 repeat _wait() until game:IsLoaded()
@@ -55,6 +55,8 @@ local function Roll()
         local args1 = { "ub_sun", 10 }
         ReplicatedStorage.RemoteFunctions.BuyUnitBox:InvokeServer(unpack(args1))
         task.wait(0.1)
+        local args = {"ub_christmas",10}
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
     end)
 end
 
@@ -113,9 +115,9 @@ local function StartRoll()
 
             local data = ClientDataHandler.GetData()
             local SeedHave = tonumber(data.Seeds)
+            local ChrisHave = tonumber(data.ChristmasGifts)
 
-
-            if SeedHave <= SeedStopRoll then
+            if SeedHave <= SeedStopRoll and ChrisHave <= CandyStopRoll then
                 StartRolls = false
                 return
             end
@@ -140,9 +142,9 @@ while true do
     local success, err = pcall(function()
         local data = ClientDataHandler.GetData()
         local SeedHave = tonumber(data.Seeds)
+        local ChrisHave = tonumber(data.ChristmasGifts)
 
-
-        if SeedHave >= SeedWaitRoll then
+        if SeedHave >= SeedWaitRoll or ChrisHave >= CandyWaitRoll then
             print('ENOUGH - Bắt đầu Roll!')
             StartRolls = true
             task.spawn(StartRoll)
