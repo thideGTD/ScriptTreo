@@ -29,7 +29,7 @@ local function AutoUnEquip()
     local Share = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.SharedItemData)
     for uniqueId, unitData in pairs(inventory or {}) do
         local itemId = unitData.ItemData and unitData.ItemData.ID
-        if unitData.Equipped and itemId ~= "unit_tomato_plant" and itemId ~= "unit_deathesia" and itemId ~= "unit_lawnmower" then
+        if unitData.Equipped and itemId ~= "unit_tomato_plant" and itemId ~= "unit_deathesia" then
             local args = {
                 tostring(uniqueId),
                 false
@@ -47,11 +47,11 @@ local function CheckHave()
     local unithave = {}
     for uniqueId, unitData in pairs(inventory or {}) do
         local itemId = unitData.ItemData and unitData.ItemData.ID
-        if itemId == "unit_tomato_plant" or itemId == "unit_deathesia" or itemId == "unit_lawnmower" then
+        if itemId == "unit_tomato_plant" or itemId == "unit_deathesia" then
             table.insert(unithave, itemId)
         end
     end
-    if table.find(unithave, "unit_tomato_plant") and table.find(unithave, "unit_deathesia") and table.find(unithave, "unit_lawnmower") then
+    if table.find(unithave, "unit_tomato_plant") and table.find(unithave, "unit_deathesia") then
         return true
     else
         return false
@@ -111,7 +111,7 @@ local function ReturnForLobby()
         AutoUnEquip()
         RemoveUnit()
         -- if itemId == "unit_pineapple" or itemId == "unit_tomato_plant" then
-        if itemId == "unit_tomato_plant" or itemId == "unit_deathesia" or itemId == "unit_lawnmower" then
+        if itemId == "unit_tomato_plant" or itemId == "unit_deathesia" then
             local args = {
                 tostring(uniqueId),
                 true
@@ -574,7 +574,7 @@ end
 --     end
 -- end
 local function CheckBackPack()
-    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Tomato") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Lawnmower") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Deathesia") then
+    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Tomato") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Deathesia") then
         return true
     else
         return false
