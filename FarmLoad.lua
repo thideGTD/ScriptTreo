@@ -382,18 +382,18 @@ local function PlayWin()
     task.wait(2)
 end
 
-local function CheckOut()
-    task.spawn(function()
-        while true do
-            task.wait(300)
-            if game:GetService("ReplicatedStorage"):FindFirstChild("RemoteFunctions") then
-                game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
-            else
-                game.Players.LocalPlayer:Kick("Kick Fail")
-            end
-        end
-    end)
-end
+-- local function CheckOut()
+--     task.spawn(function()
+--         while true do
+--             task.wait(300)
+--             if game:GetService("ReplicatedStorage"):FindFirstChild("RemoteFunctions") then
+--                 game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
+--             else
+--                 game.Players.LocalPlayer:Kick("Kick Fail")
+--             end
+--         end
+--     end)
+-- end
 
 local function PlayMap(map)
     if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.DifficultyVote.Visible then
@@ -784,7 +784,7 @@ task.spawn(function()
         local parttouch = workspace.Map.Teleporter.LobbiesEndless
         for map,world in pairs(parttouch:GetChildren()) do
             
-            if world:GetAttribute("StartTime") ~= "inf" and world:GetAttribute("StartTime") - os.time() < 5 then
+            if world:GetAttribute("MaxPlayers") == 4 and world:GetAttribute("Players") < 4 and world:GetAttribute("StartTime") ~= "inf" and world:GetAttribute("StartTime") - os.time() < 5 then
                 for i = 22, 25 do
                     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_" .. i):InvokeServer()
                 end
@@ -797,7 +797,7 @@ task.spawn(function()
     while true do
         local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
         if not a.GetData().GamePasses.gp_gamespeed_3 then
-            for i = 1, 7 do
+            for i = 22, 25 do
                 local args2 = {
                     1
                 }
