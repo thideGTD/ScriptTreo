@@ -781,6 +781,15 @@ task.spawn(function()
             end
             task.wait(25)
         end
+        local parttouch = workspace.Map.Teleporter.LobbiesEndless
+        for map,world in pairs(parttouch:GetChildren()) do
+            
+            if world:GetAttribute("StartTime") ~= "inf" and world:GetAttribute("StartTime") - os.time() < 5 then
+                for i = 22, 25 do
+                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_" .. i):InvokeServer()
+                end
+            end
+        end
         task.wait(1)
     end
 end)
@@ -788,7 +797,7 @@ task.spawn(function()
     while true do
         local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
         if not a.GetData().GamePasses.gp_gamespeed_3 then
-            for i = 6, 9 do
+            for i = 22, 25 do
                 local args2 = {
                     1
                 }
