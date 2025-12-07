@@ -773,6 +773,14 @@ local function scanmap()
     end
 end
 task.spawn(function()
+    local parttouch = workspace.Map.Teleporter.LobbiesEndless
+    for map,world in pairs(parttouch:GetChildren()) do
+        if world:GetAttribute("LobbyId") ~= "25" then
+            world:Destroy()
+        end
+    end
+end)
+task.spawn(function()
     while true do
         local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
         if not a.GetData().GamePasses.gp_gamespeed_3 and not scanmap() then
@@ -783,7 +791,6 @@ task.spawn(function()
         end
         local parttouch = workspace.Map.Teleporter.LobbiesEndless
         for map,world in pairs(parttouch:GetChildren()) do
-            
             if world:GetAttribute("MaxPlayers") == 4 and world:GetAttribute("Players") < 4 and world:GetAttribute("StartTime") ~= "inf" and world:GetAttribute("StartTime") - os.time() < 5 then
                 for i = 22, 25 do
                     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_" .. i):InvokeServer()
