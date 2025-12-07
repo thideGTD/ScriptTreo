@@ -797,7 +797,7 @@ task.spawn(function()
     while true do
         local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
         if not a.GetData().GamePasses.gp_gamespeed_3 then
-            for i = 22, 25 do
+            for i = 1, 7 do
                 local args2 = {
                     1
                 }
