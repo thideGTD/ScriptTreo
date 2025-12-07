@@ -29,7 +29,7 @@ local function AutoUnEquip()
     local Share = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.SharedItemData)
     for uniqueId, unitData in pairs(inventory or {}) do
         local itemId = unitData.ItemData and unitData.ItemData.ID
-        if unitData.Equipped and itemId ~= "unit_tomato_plant" and itemId ~= "unit_rafflesia" and itemId ~= "unit_lawnmower" then
+        if unitData.Equipped and itemId ~= "unit_tomato_plant" and itemId ~= "unit_deathesia" and itemId ~= "unit_lawnmower" then
             local args = {
                 tostring(uniqueId),
                 false
@@ -47,11 +47,11 @@ local function CheckHave()
     local unithave = {}
     for uniqueId, unitData in pairs(inventory or {}) do
         local itemId = unitData.ItemData and unitData.ItemData.ID
-        if itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" then
+        if itemId == "unit_tomato_plant" or itemId == "unit_deathesia" or itemId == "unit_lawnmower" then
             table.insert(unithave, itemId)
         end
     end
-    if table.find(unithave, "unit_tomato_plant") and table.find(unithave, "unit_rafflesia") and table.find(unithave, "unit_lawnmower") then
+    if table.find(unithave, "unit_tomato_plant") and table.find(unithave, "unit_deathesia") and table.find(unithave, "unit_lawnmower") then
         return true
     else
         return false
@@ -73,7 +73,7 @@ local function RemoveUnit()
             rarity = nil
         end
 		print(itemId, rarity)
-		if rarity and (rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" or rarity == "ra_exclusive") then
+		if rarity and (rarity == "ra_godly" or itemId == "unit_tomato_plant" or itemId == "unit_deathesia" or itemId == "unit_lawnmower" or rarity == "ra_exclusive") then
 			kept[itemId] = true
 			continue
 		end
@@ -111,7 +111,7 @@ local function ReturnForLobby()
         AutoUnEquip()
         RemoveUnit()
         -- if itemId == "unit_pineapple" or itemId == "unit_tomato_plant" then
-        if itemId == "unit_tomato_plant" or itemId == "unit_rafflesia" or itemId == "unit_lawnmower" then
+        if itemId == "unit_tomato_plant" or itemId == "unit_deathesia" or itemId == "unit_lawnmower" then
             local args = {
                 tostring(uniqueId),
                 true
@@ -215,72 +215,95 @@ end
 
 local function PlayV2()
     print('PlayV2')
-    if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.DifficultyVote.Visible then
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+
+    -- 1. Xử lý bỏ phiếu độ khó (Difficulty Vote)
+    if LocalPlayer.PlayerGui.GameGui.Screen.Middle.DifficultyVote.Visible then
         print('Vote')
         local args = {
-            "dif_impossible"
+            "dif_apocalypse"
         }
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceDifficultyVote"):InvokeServer(unpack(args))
     end
-    local WaitMode = 3.4
-    local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+
+    -- 2. Xử lý thay đổi tốc độ TickSpeed
+    local a = require(LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
     if a.GetData().GamePasses.gp_gamespeed_3 then
-        WaitMode = 3.4
-        if game:GetService("Players").LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["3"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
+        if LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["3"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
             local args = {
                 3
             }
             game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
         end
     else
-        WaitMode = 6.2
-        if game:GetService("Players").LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["2"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
+        if LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["2"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
             local args = {
                 2
             }
             game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
         end
     end
-    if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.GameEnd.Visible then
+
+    if LocalPlayer.PlayerGui.GameGui.Screen.Middle.GameEnd.Visible then
         -- game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
         task.wait(5)
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("RestartGame"):InvokeServer()
     end
-    local Round = workspace:GetAttribute("Round") or 0
-    if Round ~= 2 then
-        hasSend = false
-    end
-    if Round == 1 then
-        while Round < 2 do
-            print('V2 Load')
-            if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.DifficultyVote.Visible then
-                print('Vote')
-                local args = {
-                    "dif_impossible"
-                }
-                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceDifficultyVote"):InvokeServer(unpack(args))
-            end
 
-            Round = workspace:GetAttribute("Round") or 0
-            task.wait()
-        end
-        print('LOAD WWAIT')
-        Round = workspace:GetAttribute("Round") or 0
-        if Round == 2 then
-            print('Round2')
-            if not hasSend then
-                waitForTime(WaitMode)
-                local args = {"unit_lawnmower",{Valid = true,PathIndex = 3,Position = vector.create(-846.8033447265625, 62.18030548095703, -123.05203247070312),DistanceAlongPath = 245.0770263671875,Rotation = 180,CF = CFrame.new(-846.8033447265625, 62.18030548095703, -123.05203247070312, -0, 0, 1, 0, 1, -0, -1, 0, -0)}}
-                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceUnit"):InvokeServer(unpack(args))
-                hasSend = true
-                print('break')
-            end
+
+
+    local AllPositions = {
+        {110.74224090576172, 2.244499921798706, -98.66590118408203}, -- Vị trí 2 
+        {113.36101531982422, 2.244499921798706, 112.03187561035156}, -- Vị trí 1
+        {-95.7408447265625, 2.24399995803833, 89.54883575439453},  -- Vị trí 4
+        {-76.21514892578125, 2.24399995803833, -120.4250259399414} -- Vị trí 3
+    }
+
+
+    local playerNames = {}
+    for _, player in ipairs(Players:GetPlayers()) do
+        table.insert(playerNames, player.Name)
+    end
+
+    table.sort(playerNames)
+
+
+    local playerIndex = -1
+    for i, name in ipairs(playerNames) do
+        if name == LocalPlayer.Name then
+            playerIndex = i
+            break
         end
     end
-    if Round >= 2 then
-        local args = {"unit_rafflesia",{Valid = true,PathIndex = 3,Position = vector.create(-842.3812866210938, 62.18030548095703, -163.88323974609375),DistanceAlongPath = 178.66848754882812,Rotation = 180,CF = CFrame.new(-842.3812866210938, 62.18030548095703, -163.88323974609375, 1, 0, -0, -0, 1, -0, -0, 0, 1)}}
+
+    local selectedPos = nil
+    if playerIndex ~= -1 and playerIndex <= #AllPositions then
+        selectedPos = AllPositions[playerIndex]
+    end
+
+    if selectedPos then
+        local posVector = vector.create(selectedPos[1], selectedPos[2], selectedPos[3])
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(posVector)
+        print(posVector)
+        task.wait(1)
+        local args = {
+            "unit_deathesia",
+            {
+                Valid = true,
+                PathIndex = playerIndex,
+                Position = posVector,
+                DistanceAlongPath = 4.855037463782116,
+                CF = CFrame.new(posVector),
+                Rotation = 180
+            }
+        }
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceUnit"):InvokeServer(unpack(args))
+        print('Đã đặt đơn vị tại vị trí cho Player Index:', playerIndex)
+    else
+        print('Không tìm thấy vị trí phù hợp (Có thể server quá đông hoặc lỗi index).')
     end
+
 end
 -- local function RedeemCode()
 --     local codes = {"PLAZA", "MYSTERY", "SLIME", "WASTE"}
@@ -551,7 +574,7 @@ end
 --     end
 -- end
 local function CheckBackPack()
-    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Tomato") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Lawnmower") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rafflesia") then
+    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Tomato") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Lawnmower") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Deathesia") then
         return true
     else
         return false
@@ -690,7 +713,7 @@ local function ClearUnity()
 end
 
 local function JoinMap(maps)
-    local parttouch = workspace.Map.Garden.LobbiesFarm
+    local parttouch = workspace.Map.Teleporter.LobbiesEndless
     for map, world in pairs(parttouch:GetChildren()) do
         local maxDistance = 7 -- Khoảng cách tối đa (studs)
         if world:GetAttribute("MaxPlayers") == 1 then
@@ -742,9 +765,9 @@ local function UpdateMapWin()
 end
 local Wins = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.Stats.Items.Frame.ScrollingFrame.GamesWon.Items.Items.Val
 local function scanmap()
-    local parttouch = workspace.Map.Garden.LobbiesFarm
+    local parttouch = workspace.Map.Teleporter.LobbiesEndless
     for map,world in pairs(parttouch:GetChildren()) do
-        if world:GetAttribute("MapId") == "map_back_garden" then
+        if world:GetAttribute("MapId") == "map_christmas" then
             return true
         end
     end
@@ -753,7 +776,7 @@ task.spawn(function()
     while true do
         local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
         if not a.GetData().GamePasses.gp_gamespeed_3 and not scanmap() then
-            for i = 6, 9 do
+            for i = 22, 25 do
                 game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_" .. i):InvokeServer()
             end
             task.wait(25)
@@ -797,22 +820,18 @@ local function main()
                     ReturnForLobby()
                 else
                     if Have and #Players:GetPlayers() > 3 then
-                        local parttouch = workspace.Map.Garden.LobbiesFarm
+                        local parttouch = workspace.Map.Teleporter.LobbiesEndless
                         for map,world in pairs(parttouch:GetChildren()) do
                             if world:GetAttribute("MaxPlayers") > 0 then
                                 if world:GetAttribute("Players") == 0 then
                                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = world.Cage.Part.CFrame
                                 end
-                                for i = 6, 9 do
+                                for i = 22, 25 do
                                     local args2 = {
                                         4
                                     }
                                     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LobbySetMaxPlayers_" .. i):InvokeServer(unpack(args2))
                                     if world:GetAttribute("Players") >= 4 then
-                                        local args = {
-                                            "map_back_garden"
-                                        }
-                                        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LobbySetMap_" .. i):InvokeServer(unpack(args))
                                         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("StartLobby_" .. i):InvokeServer()
                                     end
                                     task.wait()
@@ -824,10 +843,10 @@ local function main()
                 end
                 task.wait()
             else
-                if not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Tomato") then
+                if not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Tomato") or not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Deathesia") then
                     ReturnForLobby()
                 elseif #Players:GetPlayers() > 0 then
-                    local parttouch = workspace.Map.Garden.LobbiesFarm
+                    local parttouch = workspace.Map.Teleporter.LobbiesEndless
                     for map,world in pairs(parttouch:GetChildren()) do
                         if world:GetAttribute("Players") >= 1 and world:GetAttribute("MaxPlayers") == 4 then
                             if world then
@@ -870,11 +889,11 @@ local function main()
             end
             if tonumber(Wins.Text) >= 25 then
                 local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-                if workspace:GetAttribute("MapId") == "map_back_garden" and CheckBackPack() and a.GetData().GamePasses.gp_gamespeed_3 then
+                if workspace:GetAttribute("MapId") == "map_christmas" and CheckBackPack() and a.GetData().GamePasses.gp_gamespeed_3 then
                     PlayV2()
                     setfpscap(15)
-                elseif workspace:GetAttribute("MapId") == "map_back_garden" then
-                    PlayLose()
+                elseif workspace:GetAttribute("MapId") == "map_christmas" and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Deathesia") then
+                    PlayV2()
                     task.wait(1)
                 end
             end
