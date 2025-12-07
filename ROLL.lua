@@ -53,7 +53,7 @@ end
 local function Roll()
     pcall(function()
         local args1 = { "ub_sun", 10 }
-        ReplicatedStorage.RemoteFunctions.BuyUnitBox:InvokeServer(unpack(args1))
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args1))
         task.wait(0.1)
         local args = {"ub_christmas",10}
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
@@ -163,3 +163,4 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
+
