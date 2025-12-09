@@ -52,8 +52,8 @@ end
 -- Roll (đã bảo vệ)
 local function Roll()
     pcall(function()
-		local args1 = { "ub_sun", 10 }
-		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args1))
+		-- local args1 = { "ub_sun", 10 }
+		-- game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args1))
         task.wait(0.5)
 		local args = {"ub_christmas",10}
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
@@ -143,8 +143,8 @@ while true do
         local data = ClientDataHandler.GetData()
         local SeedHave = tonumber(data.Seeds)
         local ChrisHave = tonumber(data.ChristmasGifts)
-
-        if SeedHave >= SeedWaitRoll or ChrisHave >= CandyWaitRoll then
+        -- SeedHave >= SeedWaitRoll or
+        if ChrisHave >= CandyWaitRoll then
             print('ENOUGH - Bắt đầu Roll!')
             StartRolls = true
             task.spawn(StartRoll)
@@ -163,9 +163,3 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
-
-
-
-
-
-
