@@ -1,5 +1,5 @@
-local SeedWaitRoll = 4500000
-local SeedStopRoll = 4500000
+local SeedWaitRoll = 450000
+local SeedStopRoll = 450000
 local CandyWaitRoll = 1800
 local CandyStopRoll = 1800
 local _wait = task.wait
@@ -117,7 +117,7 @@ local function StartRoll()
             local SeedHave = tonumber(data.Seeds)
             local ChrisHave = tonumber(data.ChristmasGifts)
 
-            if SeedHave <= SeedStopRoll and ChrisHave <= CandyStopRoll then
+            if SeedHave < SeedStopRoll and ChrisHave < CandyStopRoll then
                 StartRolls = false
                 return
             end
@@ -163,4 +163,3 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
-
