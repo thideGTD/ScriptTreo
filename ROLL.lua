@@ -116,8 +116,8 @@ local function StartRoll()
             local data = ClientDataHandler.GetData()
             local SeedHave = tonumber(data.Seeds)
             local ChrisHave = tonumber(data.ChristmasGifts)
-
-            if SeedHave < SeedStopRoll and ChrisHave < CandyStopRoll then
+            -- SeedHave =< SeedStopRoll
+            if ChrisHave =< CandyStopRoll then
                 StartRolls = false
                 return
             end
