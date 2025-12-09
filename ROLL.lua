@@ -52,15 +52,11 @@ end
 -- Roll (đã bảo vệ)
 local function Roll()
     pcall(function()
-		if SeedHave >= SeedWaitRoll then
-			local args1 = { "ub_sun", 10 }
-			game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args1))
-		end
+		local args1 = { "ub_sun", 10 }
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args1))
         task.wait(0.5)
-		if ChrisHave >= CandyWaitRoll then
-			local args = {"ub_christmas",10}
-            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
-		end
+		local args = {"ub_christmas",10}
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
     end)
 end
 
@@ -167,6 +163,7 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
+
 
 
 
