@@ -1,5 +1,5 @@
-local SeedWaitRoll = 450000
-local SeedStopRoll = 450000
+local SeedWaitRoll = 4500
+local SeedStopRoll = 4500
 local CandyWaitRoll = 1800
 local CandyStopRoll = 1800
 local _wait = task.wait
@@ -52,8 +52,8 @@ end
 -- Roll (đã bảo vệ)
 local function Roll()
     pcall(function()
-		-- local args1 = { "ub_sun", 10 }
-		-- game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args1))
+		local args1 = { "ub_sun", 10 }
+		game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args1))
         task.wait(0.5)
 		local args = {"ub_christmas",10}
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("BuyUnitBox"):InvokeServer(unpack(args))
@@ -138,7 +138,7 @@ local function StartRoll()
             local SeedHave = tonumber(data.Seeds)
             local ChrisHave = tonumber(data.ChristmasGifts)
             -- SeedHave =< SeedStopRoll
-            if ChrisHave < CandyStopRoll then
+            if SeedHave < SeedStopRoll or ChrisHave < CandyStopRoll then
                 StartRolls = false
                 return
             end
@@ -165,7 +165,7 @@ while true do
         local SeedHave = tonumber(data.Seeds)
         local ChrisHave = tonumber(data.ChristmasGifts)
         -- SeedHave >= SeedWaitRoll or
-        if ChrisHave >= CandyWaitRoll then
+        if SeedHave >= SeedWaitRoll or ChrisHave >= CandyWaitRoll then
             print('ENOUGH - Bắt đầu Roll!')
             StartRolls = true
             task.spawn(StartRoll)
