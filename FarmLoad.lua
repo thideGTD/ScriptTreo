@@ -889,7 +889,7 @@ local function main()
         local CheckBack = CheckBackPack()
         local Have = CheckHave()
         while true do
-			setfpscap(15)
+			setfpscap(8)
             Wins = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.Stats.Items.Frame.ScrollingFrame.GamesWon.Items.Items.Val
             local player = game:GetService("Players").LocalPlayer
             local SeedValue = game:GetService("Players").LocalPlayer.leaderstats.Seeds.Value
