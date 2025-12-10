@@ -912,7 +912,7 @@ local function main()
                 local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
                 if workspace:GetAttribute("MapId") == "map_christmas" and CheckBackPack() and a.GetData().GamePasses.gp_gamespeed_3 then
                     PlayV2()
-                    setfpscap(15)
+                    setfpscap(8)
                 elseif workspace:GetAttribute("MapId") == "map_christmas" and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Deathesia") then
                     PlayV2()
                     task.wait(1)
