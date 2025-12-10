@@ -678,14 +678,14 @@ local function Roll()
         task.wait(0.5)
     end
 end
-task.spawn(function()
-    while true do
-        if game:GetService("CoreGui").RobloxPromptGui.promptOverlay.Active then
-            game.Players.LocalPlayer:Kick("Kick Fail")
-        end
-        task.wait(10)
-    end
-end)
+-- task.spawn(function()
+--     while true do
+--         if game:GetService("CoreGui").RobloxPromptGui.promptOverlay.Active then
+--             game.Players.LocalPlayer:Kick("Kick Fail")
+--         end
+--         task.wait(10)
+--     end
+-- end)
 -- task.spawn(function()
 --     while true do
 --         task.wait(7200)
