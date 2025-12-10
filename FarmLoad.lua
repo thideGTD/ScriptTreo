@@ -791,7 +791,7 @@ task.spawn(function()
         end
         local parttouch = workspace.Map.Teleporter.LobbiesEndless
         for map,world in pairs(parttouch:GetChildren()) do
-            if world:GetAttribute("MaxPlayers") == 4 and world:GetAttribute("Players") < 4 and world:GetAttribute("StartTime") ~= "inf" and world:GetAttribute("StartTime") - os.time() < 5 then
+            if world:GetAttribute("MaxPlayers") == 4 and world:GetAttribute("Players") < 4 and world:GetAttribute("StartTime") ~= "inf" and world:GetAttribute("StartTime") - os.time() < 10 then
                 for i = 22, 25 do
                     game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_" .. i):InvokeServer()
                 end
