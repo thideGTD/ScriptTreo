@@ -138,7 +138,7 @@ local function StartRoll()
             local SeedHave = tonumber(data.Seeds)
             local ChrisHave = tonumber(data.ChristmasGifts)
             -- SeedHave =< SeedStopRoll
-            if SeedHave < SeedStopRoll or ChrisHave < CandyStopRoll then
+            if SeedHave < SeedStopRoll and ChrisHave < CandyStopRoll then
                 StartRolls = false
                 return
             end
