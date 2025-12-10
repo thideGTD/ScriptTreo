@@ -107,9 +107,30 @@ local function CheckRemove()
         task.wait(10)
     end
 end
+local function BanUnit()
+    local chirstName = {"unit_christmas_tree", "unit_ice_chomp", "unit_snowballer", "unit_wheel_bush", "unit_frost_shroom"}
+    for i,v in pairs(chirstName) do
+        local args = {
+            "ub_christmas",
+            v,
+            true
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("BanFromUnitBox"):FireServer(unpack(args))
+    end
 
+    local SunName = {"unit_razor", "unit_eggplant", "unit_durian", "unit_sound_plant", "unit_sprinkler", "unit_fire_flower"}
+    for i,v in pairs(SunName) do
+        local args = {
+            "ub_sun",
+            v,
+            true
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("BanFromUnitBox"):FireServer(unpack(args))
+    end
+end
 -- Vòng lặp Roll khi đủ tài nguyên (đã bảo vệ)
 local function StartRoll()
+    BanUnit()
     while StartRolls do
         local success, err = pcall(function()
 
