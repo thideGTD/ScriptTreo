@@ -284,8 +284,9 @@ local function PlayV2()
 
     if selectedPos then
         local posVector = vector.create(selectedPos[1] , selectedPos[2], selectedPos[3])
-        local posVector2 = vector.create(selectedPos[1] + math.random(4,5), selectedPos[2], selectedPos[3] + math.random(4,5))
+        local posVector2 = vector.create(selectedPos[1] + math.random(5,7), selectedPos[2], selectedPos[3] + math.random(5,7))
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(posVector)
+        task.wait(1)
         game.Players.LocalPlayer.Character.Humanoid:MoveTo(posVector2)
         print(posVector)
         task.wait(1)
@@ -302,7 +303,7 @@ local function PlayV2()
                 }
             }
             game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceUnit"):InvokeServer(unpack(args))
-            task.wait(5)
+            task.wait(10)
         end
         print('Đã đặt đơn vị tại vị trí cho Player Index:', playerIndex)
     else
@@ -565,7 +566,7 @@ local function AntiAfk2()
             while true do
                 VirtualUser:CaptureController()
                 VirtualUser:ClickButton2(Vector2.new())
-                task.wait(5)
+                task.wait(0.1)
             end
         end
     )
