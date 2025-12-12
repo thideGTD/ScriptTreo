@@ -285,26 +285,29 @@ local function PlayV2()
     if selectedPos then
         local posVector = vector.create(selectedPos[1] , selectedPos[2], selectedPos[3])
         local posVector2 = vector.create(selectedPos[1] + math.random(4,5), selectedPos[2], selectedPos[3] + math.random(4,5))
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = posVector
         game.Players.LocalPlayer.Character.Humanoid:MoveTo(posVector2)
         print(posVector)
         task.wait(1)
-        local args = {
-            "unit_deathesia",
-            {
-                Valid = true,
-                PathIndex = playerIndex,
-                Position = posVector,
-                DistanceAlongPath = 4.855037463782116,
-                CF = CFrame.new(posVector),
-                Rotation = 180
+        if game:GetService("Players").LocalPlayer:GetAttribute("Cash") > 1850 then
+            local args = {
+                "unit_deathesia",
+                {
+                    Valid = true,
+                    PathIndex = playerIndex,
+                    Position = posVector,
+                    DistanceAlongPath = math.random(3,5),
+                    CF = CFrame.new(posVector),
+                    Rotation = 180
+                }
             }
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceUnit"):InvokeServer(unpack(args))
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceUnit"):InvokeServer(unpack(args))
+            task.wait(5)
+        end
         print('Đã đặt đơn vị tại vị trí cho Player Index:', playerIndex)
     else
         print('Không tìm thấy vị trí phù hợp (Có thể server quá đông hoặc lỗi index).')
     end
-    task.wait(5)
 end
 -- local function RedeemCode()
 --     local codes = {"PLAZA", "MYSTERY", "SLIME", "WASTE"}
