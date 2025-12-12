@@ -284,7 +284,7 @@ local function PlayV2()
 
     if selectedPos then
         local posVector = vector.create(selectedPos[1], selectedPos[2], selectedPos[3])
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(posVector)
+        game.Players.LocalPlayer.Character.Humanoid:MoveTo(posVector)
         print(posVector)
         task.wait(1)
         local args = {
@@ -303,7 +303,7 @@ local function PlayV2()
     else
         print('Không tìm thấy vị trí phù hợp (Có thể server quá đông hoặc lỗi index).')
     end
-
+    task.wait(5)
 end
 -- local function RedeemCode()
 --     local codes = {"PLAZA", "MYSTERY", "SLIME", "WASTE"}
