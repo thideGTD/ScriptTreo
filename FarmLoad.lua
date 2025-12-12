@@ -283,8 +283,9 @@ local function PlayV2()
     end
 
     if selectedPos then
-        local posVector = vector.create(selectedPos[1], selectedPos[2], selectedPos[3])
-        game.Players.LocalPlayer.Character.Humanoid:MoveTo(posVector)
+        local posVector = vector.create(selectedPos[1] , selectedPos[2], selectedPos[3])
+        local posVector2 = vector.create(selectedPos[1] + math.random(2,3), selectedPos[2], selectedPos[3] + math.random(2,3))
+        game.Players.LocalPlayer.Character.Humanoid:MoveTo(posVector2)
         print(posVector)
         task.wait(1)
         local args = {
