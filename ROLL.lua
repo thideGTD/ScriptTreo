@@ -155,7 +155,9 @@ local function StartRoll()
         end
     end
 end
-
+local function LoadS()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/FarmLoad.lua"))()
+end
 -- === KHỞI ĐỘNG ===
 task.spawn(CheckRemove)
 
@@ -171,7 +173,7 @@ while true do
             task.spawn(StartRoll)
         else
             if Load == false then
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/thideGTD/ScriptTreo/refs/heads/main/FarmLoad.lua"))()
+                task.spawn(LoadS)
                 Load = true
             end
         end
@@ -184,3 +186,4 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
+
