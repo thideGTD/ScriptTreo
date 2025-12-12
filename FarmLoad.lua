@@ -285,7 +285,7 @@ local function PlayV2()
     if selectedPos then
         local posVector = vector.create(selectedPos[1] , selectedPos[2], selectedPos[3])
         local posVector2 = vector.create(selectedPos[1] + math.random(4,5), selectedPos[2], selectedPos[3] + math.random(4,5))
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = posVector
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(posVector)
         game.Players.LocalPlayer.Character.Humanoid:MoveTo(posVector2)
         print(posVector)
         task.wait(1)
