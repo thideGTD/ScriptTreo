@@ -250,6 +250,7 @@ local function WorldLoad()
             task.wait(5)
             game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("RestartGame"):InvokeServer()
         end
+        task.wait(5)
     end
 end
 local function PlayV2()
