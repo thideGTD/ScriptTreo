@@ -213,44 +213,47 @@ local function waitForTime(seconds)
     end
 end
 
+local function WorldLoad()
+    while true do
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+
+        -- 1. Xử lý bỏ phiếu độ khó (Difficulty Vote)
+        if LocalPlayer.PlayerGui.GameGui.Screen.Middle.DifficultyVote.Visible then
+            print('Vote')
+            local args = {
+                "dif_apocalypse"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceDifficultyVote"):InvokeServer(unpack(args))
+        end
+
+        -- 2. Xử lý thay đổi tốc độ TickSpeed
+        local a = require(LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
+        if a.GetData().GamePasses.gp_gamespeed_3 then
+            if LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["3"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
+                local args = {
+                    3
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
+            end
+        else
+            if LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["2"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
+                local args = {
+                    2
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
+            end
+        end
+
+        if LocalPlayer.PlayerGui.GameGui.Screen.Middle.GameEnd.Visible then
+            -- game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
+            task.wait(5)
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("RestartGame"):InvokeServer()
+        end
+    end
+end
 local function PlayV2()
     print('PlayV2')
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
-
-    -- 1. Xử lý bỏ phiếu độ khó (Difficulty Vote)
-    if LocalPlayer.PlayerGui.GameGui.Screen.Middle.DifficultyVote.Visible then
-        print('Vote')
-        local args = {
-            "dif_apocalypse"
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("PlaceDifficultyVote"):InvokeServer(unpack(args))
-    end
-
-    -- 2. Xử lý thay đổi tốc độ TickSpeed
-    local a = require(LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
-    if a.GetData().GamePasses.gp_gamespeed_3 then
-        if LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["3"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
-            local args = {
-                3
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
-        end
-    else
-        if LocalPlayer.PlayerGui.GameGuiNoInset.Screen.Top.WaveControls.TickSpeed.Items["2"].ImageColor3 ~= Color3.fromRGB(115, 230, 0) then
-            local args = {
-                2
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("ChangeTickSpeed"):InvokeServer(unpack(args))
-        end
-    end
-
-    if LocalPlayer.PlayerGui.GameGui.Screen.Middle.GameEnd.Visible then
-        -- game:GetService("ReplicatedStorage").RemoteFunctions.BackToMainLobby:InvokeServer()
-        task.wait(5)
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("RestartGame"):InvokeServer()
-    end
-
 
 
     local AllPositions = {
@@ -890,6 +893,7 @@ local function main()
         game:GetService("RunService"):Set3dRenderingEnabled(false)
         task.spawn(AutoSkip)
         task.spawn(AntiLag)
+        task.spawn(WorldLoad)
         AntiAfk2()
         local CheckBack = CheckBackPack()
         local Have = CheckHave()
