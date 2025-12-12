@@ -254,7 +254,8 @@ local function WorldLoad()
 end
 local function PlayV2()
     print('PlayV2')
-
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
 
     local AllPositions = {
         {110.74224090576172 + math.random(-1 ,1), 2.244499921798706 + math.random(-1 ,1), -98.66590118408203 + math.random(-1 ,1)}, -- Vị trí 2 
@@ -893,10 +894,10 @@ local function main()
         game:GetService("RunService"):Set3dRenderingEnabled(false)
         task.spawn(AutoSkip)
         task.spawn(AntiLag)
-        task.spawn(WorldLoad)
         AntiAfk2()
         local CheckBack = CheckBackPack()
         local Have = CheckHave()
+        task.spawn(WorldLoad)
         while true do
 			setfpscap(8)
             Wins = game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Screen.Middle.Stats.Items.Frame.ScrollingFrame.GamesWon.Items.Items.Val
