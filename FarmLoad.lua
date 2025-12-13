@@ -785,7 +785,7 @@ end
 task.spawn(function()
     local parttouch = workspace.Map.Teleporter.LobbiesEndless
     for map,world in pairs(parttouch:GetChildren()) do
-        if world:GetAttribute("LobbyId") ~= "25" then
+        if world:GetAttribute("LobbyId") ~= "4" then
             world:Destroy()
         end
     end
@@ -794,21 +794,15 @@ task.spawn(function()
     while true do
         local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
         if not a.GetData().GamePasses.gp_gamespeed_3 and not scanmap() then
-            for i = 24, 25 do
-                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_" .. i):InvokeServer()
-            end
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_4"):InvokeServer()
             task.wait(25)
         end
         local parttouch = workspace.Map.Teleporter.LobbiesEndless
         for map,world in pairs(parttouch:GetChildren()) do
             if world:GetAttribute("MaxPlayers") == 4 and world:GetAttribute("Players") < 4 and world:GetAttribute("StartTime") ~= "inf" and world:GetAttribute("StartTime") - os.time() < 10 then
-                for i = 24, 25 do
-                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_" .. i):InvokeServer()
-                end
+                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_4"):InvokeServer()
             elseif world:GetAttribute("MaxPlayers") ~= 4 then
-                for i = 24, 25 do
-                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_" .. i):InvokeServer()
-                end
+                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LeaveLobby_4"):InvokeServer()
             end
         end
         task.wait(1)
@@ -818,12 +812,10 @@ task.spawn(function()
     while true do
         local a = require(game:GetService("Players").LocalPlayer.PlayerGui.LogicHolder.ClientLoader.Modules.ClientDataHandler)
         if not a.GetData().GamePasses.gp_gamespeed_3 then
-            for i = 24, 25 do
-                local args2 = {
-                    2
-                }
-                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LobbySetMaxPlayers_" .. i):InvokeServer(unpack(args2))
-            end
+            local args2 = {
+                2
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LobbySetMaxPlayers_4"):InvokeServer(unpack(args2))
         end
         task.wait(1)
     end
@@ -856,15 +848,12 @@ local function main()
                                 if world:GetAttribute("Players") == 0 then
                                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = world.Cage.Part.CFrame
                                 end
-                                for i = 24, 25 do
-                                    local args2 = {
-                                        4
-                                    }
-                                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LobbySetMaxPlayers_" .. i):InvokeServer(unpack(args2))
-                                    if world:GetAttribute("Players") >= 4 then
-                                        game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("StartLobby_" .. i):InvokeServer()
-                                    end
-                                    task.wait()
+                                local args2 = {
+                                    4
+                                }
+                                game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("LobbySetMaxPlayers_4"):InvokeServer(unpack(args2))
+                                if world:GetAttribute("Players") >= 4 then
+                                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunctions"):WaitForChild("StartLobby_4"):InvokeServer()
                                 end
                                 task.wait(0.2)
                             end
