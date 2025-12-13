@@ -1,7 +1,7 @@
-local SeedWaitRoll = 4500000
-local SeedStopRoll = 4500000
-local CandyWaitRoll = 1800000
-local CandyStopRoll = 1800000
+local SeedWaitRoll = 4500
+local SeedStopRoll = 4500
+local CandyWaitRoll = 1800
+local CandyStopRoll = 1800
 local _wait = task.wait
 
 repeat _wait() until game:IsLoaded()
@@ -186,5 +186,6 @@ while true do
         task.wait(5) -- Đợi rồi thử lại
     end
 end
+
 
 
